@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "15a5fadcb8581d32",
+        "id": "c28d7346b28aa88d",
         "type": "leaf",
         "state": {
           "type": "empty",
@@ -96,7 +96,7 @@
         "currentTab": 2
       },
       {
-        "id": "3e30e0225cc40586",
+        "id": "f8fa6abc7c2e2494",
         "type": "tabs",
         "children": [
           {
@@ -113,10 +113,11 @@
     "direction": "horizontal",
     "width": 341.5
   },
-  "active": "15a5fadcb8581d32",
+  "active": "c28d7346b28aa88d",
   "lastOpenFiles": [
-    "language/japanese/新标日下.md",
     "language/japanese/新标日上.md",
+    "language/japanese/新标日下.md",
+    "README.md",
     "タバコ.md",
     "2022-05-23.md"
   ]
