@@ -1,0 +1,123 @@
+{
+  "main": {
+    "id": "f4daef243cd49519",
+    "type": "split",
+    "children": [
+      {
+        "id": "15a5fadcb8581d32",
+        "type": "leaf",
+        "state": {
+          "type": "empty",
+          "state": {}
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "af3e6e93efa7a1e1",
+    "type": "split",
+    "children": [
+      {
+        "id": "80f028e007717c03",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "039ace6394e38bdd",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "caa5deb44a36956f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 222,
+    "collapsed": true
+  },
+  "right": {
+    "id": "95a031fe3cc1a187",
+    "type": "split",
+    "children": [
+      {
+        "id": "9ed97f77218c370e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "556a44bafb24fd54",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": false
+              }
+            }
+          },
+          {
+            "id": "d0c1ab25e1c67711",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
+            }
+          },
+          {
+            "id": "f0ff2c214dd07ae1",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 2
+      },
+      {
+        "id": "3e30e0225cc40586",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9a382aa079580f83",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 341.5
+  },
+  "active": "15a5fadcb8581d32",
+  "lastOpenFiles": [
+    "language/japanese/新标日下.md",
+    "language/japanese/新标日上.md",
+    "タバコ.md",
+    "2022-05-23.md"
+  ]
+}
