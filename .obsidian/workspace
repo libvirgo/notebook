@@ -7,8 +7,11 @@
         "id": "c28d7346b28aa88d",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "diff-view",
+          "state": {
+            "file": "language/japanese/新标日上.md",
+            "staged": false
+          }
         }
       }
     ],
@@ -116,6 +119,7 @@
   "active": "c28d7346b28aa88d",
   "lastOpenFiles": [
     "language/japanese/新标日上.md",
+    "language/japanese/examples.md",
     "language/japanese/新标日下.md",
     "README.md",
     "タバコ.md",
