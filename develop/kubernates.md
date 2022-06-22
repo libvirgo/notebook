@@ -96,3 +96,14 @@
 
 ## Namespace
 命名空间为集群提供虚拟的隔离作用, 初始有两个命名空间, 分别是 `default` 和 `kube-system`
+
+## RBAC 访问授权
+
+相对于基于属性 `Attribute-based Access Control ABAC` 的访问控制, 主要是引入了角色和角色绑定的抽象概念, 在 `ABAC` 中, 访问策略只能跟用户直接关联, 而 `RBAC` 中可以跟某个角色关联, 具体的用户再跟一个或多个角色相关联.
+
+# Etcd
+
+## 原理
+
+使用的是 `raft` 一致性算法来实现的, 是一款分布式的 `KV` 存储, 主要用于共享配置和服务发现. 原理参考 [Raft](http://thesecretlivesofdata.com/raft/)
+
