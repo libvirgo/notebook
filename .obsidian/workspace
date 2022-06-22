@@ -7,12 +7,25 @@
         "id": "c28d7346b28aa88d",
         "type": "leaf",
         "state": {
-          "type": "diff-view",
+          "type": "markdown",
           "state": {
-            "file": "language/japanese/新标日上.md",
-            "staged": false
+            "file": "develop/kubernates.md",
+            "mode": "source"
           }
-        }
+        },
+        "group": "265f107e5b5d22bd"
+      },
+      {
+        "id": "69680ae266e289ed",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "develop/kubernates.md",
+            "mode": "preview"
+          }
+        },
+        "group": "265f107e5b5d22bd"
       }
     ],
     "direction": "vertical"
@@ -52,8 +65,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 222,
-    "collapsed": true
+    "width": 222
   },
   "right": {
     "id": "95a031fe3cc1a187",
@@ -69,6 +81,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "develop/kubernates.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -114,10 +127,13 @@
       }
     ],
     "direction": "horizontal",
-    "width": 341.5
+    "width": 200.5
   },
-  "active": "c28d7346b28aa88d",
+  "active": "69680ae266e289ed",
   "lastOpenFiles": [
+    "develop/kubernates.md",
+    "Untitled 1.md",
+    "Untitled.md",
     "language/japanese/新标日上.md",
     "language/japanese/examples.md",
     "language/japanese/新标日下.md",

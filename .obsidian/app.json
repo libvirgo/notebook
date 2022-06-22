@@ -3,5 +3,7 @@
   "showFrontmatter": true,
   "strictLineBreaks": true,
   "emacsyKeys": true,
-  "vimMode": true
+  "vimMode": true,
+  "newLinkFormat": "relative",
+  "attachmentFolderPath": "./assert"
 }
