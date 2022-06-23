@@ -4,28 +4,28 @@
     "type": "split",
     "children": [
       {
-        "id": "c28d7346b28aa88d",
+        "id": "e1bcfadfc5576f13",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "develop/kubernates.md",
+            "file": "develop/distribution/raft.md",
             "mode": "source"
           }
         },
-        "group": "265f107e5b5d22bd"
+        "group": "1350e6fbf54b824f"
       },
       {
-        "id": "69680ae266e289ed",
+        "id": "7c431c7e94e1d786",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "develop/kubernates.md",
+            "file": "develop/distribution/raft.md",
             "mode": "preview"
           }
         },
-        "group": "265f107e5b5d22bd"
+        "group": "1350e6fbf54b824f"
       }
     ],
     "direction": "vertical"
@@ -81,7 +81,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "develop/kubernates.md",
+                "file": "develop/distribution/raft.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -129,16 +129,17 @@
     "direction": "horizontal",
     "width": 200.5
   },
-  "active": "c28d7346b28aa88d",
+  "active": "e1bcfadfc5576f13",
   "lastOpenFiles": [
-    "develop/kubernates.md",
-    "Untitled 1.md",
-    "Untitled.md",
-    "language/japanese/新标日上.md",
+    "develop/distribution/raft.md",
+    "develop/distribution/kubernates.md",
+    "develop/distribution/assert/Pasted image 20220621142524.png",
+    "develop/assert/Pasted image 20220621142518.png",
+    "develop/assert/Pasted image 20220621142514.png",
+    "develop/assert/Pasted image 20220621142320.png",
+    "develop/assert/Pasted image 20220623114432.png",
     "language/japanese/examples.md",
     "language/japanese/新标日下.md",
-    "README.md",
-    "タバコ.md",
-    "2022-05-23.md"
+    "Untitled 1.md"
   ]
 }

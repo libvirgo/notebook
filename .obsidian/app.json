@@ -5,5 +5,6 @@
   "emacsyKeys": true,
   "vimMode": true,
   "newLinkFormat": "relative",
-  "attachmentFolderPath": "./assert"
+  "attachmentFolderPath": "./assert",
+  "alwaysUpdateLinks": true
 }

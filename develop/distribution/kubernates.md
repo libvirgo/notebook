@@ -105,5 +105,5 @@
 
 ## 原理
 
-使用的是 `raft` 一致性算法来实现的, 是一款分布式的 `KV` 存储, 主要用于共享配置和服务发现. 原理参考 [Raft](http://thesecretlivesofdata.com/raft/)
+使用的是 [[distribution/raft]]  一致性算法来实现的, 是一款分布式的 `KV` 存储, 主要用于共享配置和服务发现. 原理参考 [Raft](http://thesecretlivesofdata.com/raft/)
 
