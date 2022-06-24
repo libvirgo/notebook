@@ -4,28 +4,28 @@
     "type": "split",
     "children": [
       {
-        "id": "e1bcfadfc5576f13",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "develop/distribution/raft.md",
-            "mode": "source"
-          }
-        },
-        "group": "1350e6fbf54b824f"
-      },
-      {
         "id": "7c431c7e94e1d786",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "develop/distribution/raft.md",
+            "file": "develop/distribution/kubernates/1_concept.md",
+            "mode": "source"
+          }
+        },
+        "group": "7318ae0cb7e99d1b"
+      },
+      {
+        "id": "0e2246bd12c47918",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "develop/distribution/kubernates/1_concept.md",
             "mode": "preview"
           }
         },
-        "group": "1350e6fbf54b824f"
+        "group": "7318ae0cb7e99d1b"
       }
     ],
     "direction": "vertical"
@@ -65,7 +65,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 222
+    "width": 169
   },
   "right": {
     "id": "95a031fe3cc1a187",
@@ -81,7 +81,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "develop/distribution/raft.md",
+                "file": "develop/distribution/kubernates/1_concept.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -129,17 +129,17 @@
     "direction": "horizontal",
     "width": 200.5
   },
-  "active": "e1bcfadfc5576f13",
+  "active": "7c431c7e94e1d786",
   "lastOpenFiles": [
+    "develop/distribution/kubernates/1_concept.md",
+    "language/japanese/新标日上.md",
+    "develop/distribution/etcd.md",
     "develop/distribution/raft.md",
-    "develop/distribution/kubernates.md",
-    "develop/distribution/assert/Pasted image 20220621142524.png",
+    "develop/distribution/kubernates/assert/Pasted image 20220621142524.png",
     "develop/assert/Pasted image 20220621142518.png",
     "develop/assert/Pasted image 20220621142514.png",
     "develop/assert/Pasted image 20220621142320.png",
     "develop/assert/Pasted image 20220623114432.png",
-    "language/japanese/examples.md",
-    "language/japanese/新标日下.md",
-    "Untitled 1.md"
+    "language/japanese/examples.md"
   ]
 }

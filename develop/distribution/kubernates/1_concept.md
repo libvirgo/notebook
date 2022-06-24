@@ -1,3 +1,6 @@
+```toc
+```
+
 # 基础架构
 
 ![[assert/Pasted image 20220621142320.png]]
@@ -106,4 +109,63 @@
 ## 原理
 
 使用的是 [[distribution/raft]]  一致性算法来实现的, 是一款分布式的 `KV` 存储, 主要用于共享配置和服务发现. 原理参考 [Raft](http://thesecretlivesofdata.com/raft/)
+
+## 存储
+
+`kubernates` 使用 `etcd` 的 `API` 操作其中的数据, 所有资源对象都保存在 `/registry` 路径下.
+
+# 开放接口
+
+为了便于系统的拓展, 开放了以下接口:
+
+* 容器运行时接口: 提供计算资源
+* 容器网络接口: 提供网络资源
+* 容器存储接口: 提供存储资源
+
+## CRI (运行时接口)
+
+### CRI架构
+
+![[assert/Pasted image 20220624145500.png]]
+
+### 一些支持的 `CRI` 后端
+
+* [cri-o](https://github.com/kubernetes-incubator/cri-o)
+* [containerd](https://github.com/containerd/containerd/tree/main/pkg/cri)
+* [RKT](https://www.redhat.com/en/topics/containers/what-is-rkt)
+* [Docker](https://www.docker.com/)
+
+## CNI (网络接口)
+
+设计的时候考虑了以下问题
+
+* 容器运行时必须在调用任何插件之前为容器创建一个新的网络命名空间.
+* 运行时必须确定这个容器应属于哪个网络, 并为每个网络确定哪些插件必须被执行.
+* 网络配置采用 `JSON` 格式, 可以很容易地存储在文件中.
+* 容器运行时必须按顺序为每个网络执行相应的插件, 将容器添加到每个网络中.
+* 在完成容器生命周期后, 必须按相反的顺序执行插件, 以将容器与网络断开连接.
+* 容器运行时不能为同一容器调用并行操作, 但可以为不同的容器调用并行操作.
+* 容器运行时必须为容器订阅 `ADD` 和 `DEL` 操作, 这样 `ADD` 后面总是跟着对应的 `DEL`, `DEL` 可能跟着额外的 `DEL`, 插件应该允许处理多个 `DEL`.
+* 容器必须由 `ContainerID` 唯一标识, 存储状态的插件应该使用网络名称, 容器ID的主键来完成.
+* 运行时不能调用同一个网络名称或容器ID执行两次 `ADD` (没有相应的 `DEL`), 换句话说, 给定的容器ID只能添加到特定网络一次.
+
+## CSI (存储接口)
+
+`CSI` 试图建立一个行业标准接口的规范, 借助 `CSI` 容器编排系统, 可以将任意存储系统暴露给自己的容器工作负载.
+
+# 资源对象
+
+| category         | name                                                                                                                                                                                   |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| resources object | Pod, ReplicaSet, ReplicationController, Deployment, StatefulSet, DaemonSet, Job, CronJob, HorizontalPodAutoScaling, Node, Namespace, Service, Ingress, Label, CustomResourceDefinition |
+| Storage object   | Volume, PersistentVolume, Secret, ConfigMap                                                                                                                                            |
+| Policy object    | SecurityContext, ResourceQuota, LimitRange                                                                                                                                             |
+| Identity object  | ServiceAccount, Role, ClusterRole                                                                                                                                                                                       |
+
+## 理解 `K8S` 中的对象
+
+`Kubernates object` 是持久化的条目, 使用这些条目去表示整个集群的状态. 特别的, 它描述了如下信息:
+* 什么容器化应用在哪个 `Node` 上运行
+* 可以被应用使用的资源
+* 关于应用如何表现的策略(重启, 升级, 容错策略等)
 
