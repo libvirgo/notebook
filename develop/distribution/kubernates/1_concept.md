@@ -169,3 +169,39 @@
 * 可以被应用使用的资源
 * 关于应用如何表现的策略(重启, 升级, 容错策略等)
 
+## `Spec, Status`
+
+每个 `Kubernates` 对象包含两个嵌套的对象字段, 负责管理对象的配置: 对象 `Spec`, 对象 `Status`. `Spec` 必须提供, 描述了对象的期望状态——希望对象所具有的特征. `Status` 描述了对象的实际状态, 由 `Kubernates` 系统提供和更新.
+
+## 描述 `Kubernates` 对象
+
+使用 `API` 请求或者通过提供给 `kubectl` `yaml` 文件来提供对应的信息, `kubectl` 会把 `yaml` 转换成 `JSON`.
+
+
+```yaml
+apiVersion: apps/v1beta1
+kind: Deployment 
+metadata: 
+	name: nginx-deployment
+spec: 
+	replicas: 3 
+	template: 
+		metadata: 
+			labels: app: nginx 
+		spec: 
+			containers: 
+			- name: nginx 
+			   image: nginx:1.7.9 
+			   ports: 
+			   - containerPort: 80
+```
+
+```shell
+kubectl create -f nginx-deployment.yaml --record
+```
+
+## 必须字段
+
+* `apiVersion` - `Kubernates API` 的版本
+* `kind` - 创建的对象类型
+* `metadata` - 帮助识别对象唯一性的数据, 包括一个 `name`, `UID`, 和可选的 `namespace`
