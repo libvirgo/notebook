@@ -145,3 +145,39 @@ k scale --replicas 3 deployment/hello-deployment
 
 也可以使用 `kubectl describe` 描述一个 `Pod`.
 
+# `Dashboard`
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/aio/deploy/recommended.yaml
+```
+
+创建 `ServiceAccount` 并给予权限.
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+```
+
+创建 `Token`
+
+```bash
+kubectl -n kubernetes-dashboard create token admin-user --duration 9999h
+```
+
+使用 `kubectl proxy` 命令, 然后访问网页: [dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)

@@ -132,6 +132,7 @@
   "active": "7c431c7e94e1d786",
   "lastOpenFiles": [
     "develop/distribution/kubernates_in_action/2_ready_to_use.md",
+    "develop/distribution/kubernates_in_action/3_pod.md",
     "develop/distribution/kubernates_basic/1_concept.md",
     "develop/distribution/kubernates_basic/2_pod.md",
     "develop/distribution/kubernates_in_action/1_introduce.md",
@@ -139,7 +140,6 @@
     "develop/distribution/etcd.md",
     "develop/distribution/raft.md",
     "develop/distribution/kubernates_basic/assert/Pasted image 20220621142524.png",
-    "develop/assert/Pasted image 20220621142518.png",
-    "develop/assert/Pasted image 20220621142514.png"
+    "develop/assert/Pasted image 20220621142518.png"
   ]
 }
