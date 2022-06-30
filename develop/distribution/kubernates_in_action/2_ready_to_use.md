@@ -122,7 +122,7 @@ spec:
 ## 增加期望的副本数
 
 ```bash
-kubectl scale rc hello --replicas=3
+k scale --replicas 3 deployment/hello-deployment
 ```
 
 告诉 `Kubernetes` 需要确保 `Pod` 始终有三个实例在运行.
@@ -130,4 +130,18 @@ kubectl scale rc hello --replicas=3
 > 注意, 这并没有告诉 `Kubernetes` 需要采取什么行动, 也没有让 `Kubernetes` 增加两个 `Pod`, 只设置了新的期望的实例数量并让 `Kubernetes` 决定需要采取哪些操作来实现期望的状态.
 
 > 这是 `Kubernetes` 最基本的原则之一, 不是告诉 `Kubernetes` 应该执行什么操作, 而是声明性地改变系统的期望状态. 并让 `Kubernetes` 检查当前的状态是否与期望的状态一致.
+
+> 应用本身需要支持水平伸缩. `Kubernetes` 并不会让应用变得可拓展, 只是让应用的扩容和缩容变得简单.
+
+因为现在应用有多个实例在运行, 所以请求会随机地切换到不同的 `Pod`. 当 `Pod` 有多个实例的时候 `Kubernetes` 服务就会这样做. 服务作为负载均衡挡在多个 `Pod` 前面, 无论服务后面是单个 `Pod` 还是一组 `Pod`, 它们的 `IP` 发生变化, 但服务的地址总是相同的, 这使得客户端可以很容易地连接到 `Pod`.
+
+## 系统的新状态
+
+![[assert/Pasted image 20220630152231.png]]
+
+目前有一个服务和一个 `RC`(新版本 `RS` 替代), 并且有三个 `Pod` 实例, 它们都是由 `RS` 管理, 服务不再将所有请求发送到单个 `Pod`, 而是将它们分散到所有三个 `Pod` 中.
+
+可以使用 `-o wide` 作为 `kubectl get pods` 的额外参数来显示 `Pod` 的 `IP` 和所在节点.
+
+也可以使用 `kubectl describe` 描述一个 `Pod`.
 
