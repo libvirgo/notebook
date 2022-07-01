@@ -5,7 +5,7 @@
 * 主节点: 承载着 `Kubernetes` 控制和管理整个集群系统的控制面板.
 * 工作节点: 它们运行用户实际部署的应用.
 
-![[assert/Pasted image 20220628175414.png]]
+![[./assert/Pasted image 20220628175414.png]]
 
 **控制面板**
 
