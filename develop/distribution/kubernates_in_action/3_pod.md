@@ -1,7 +1,7 @@
 ```toc
 ```
 
-# 介绍 `Pod`
+# 介绍 [[../kubernates_basic/2_pod|Pod]]
 
 > 当一个 `Pod` 包含多个容器时, 这些容器总是运行在同一个工作节点上-一个`Pod` 绝不会跨越多个工作节点.
 
@@ -103,7 +103,7 @@ kubectl explain pod
 kubectl explain pod.spec
 ```
 
-## 创建 `Pod` 相关命令
+## `Pod` 相关命令
 
 ```shell
 # 创建
@@ -115,4 +115,104 @@ kubectl get po xxx -o json
 kubectl get pods
 # 查看日志
 kubectl logs xxx
+# 指定容器(pod包含多个容器的话)
+kubectl logs kubia-manual -c kubia
+# 如果想要在不通过 `Service` 的情况下与特定的 `Pod` 进行通信(出于调试或其它原因)
+kubectl post-forward kubia-manual 8888:8080
 ```
+
+## 使用标签管理
+
+标签是可以附加到资源的任意键值对, 用以选择具有该确切标签的资源. 只要标签的 `Key` 在资源内是唯一的, 一个资源便可以拥有多个标签. 通常在创建资源的时候就会将标签添加到资源上. 也可以之后添加修改.
+
+![[assert/Pasted image 20220701153757.png]]
+
+### 创建时指定
+
+```yaml
+kind: Deployment  
+apiVersion: apps/v1  
+metadata:  
+  name: "hello-deployment"  
+spec:  
+  selector:  
+    matchLabels:  
+      app: "hello"  
+  replicas: 3  
+  template:  
+    metadata:  
+      labels:  
+        app: "hello"  
+    spec:  
+      containers:  
+        - name: hello  
+          image: hello-world:v1
+```
+
+### 标签相关命令
+
+```bash
+# 获取Pod的信息带上labels
+kubectl get po --show-labels
+# 获取指定label的value
+kubectl get po -L hello
+# 通过标签选择子集
+kubectl get po -l app=hello
+# 修改
+kubectl label po kubia-xxx env=prod
+# 修改已有标签
+kubectl label po xxx env=debug --overwrite
+```
+
+### 筛选标签
+
+```text
+creation_method!=manual
+env in (prod, devel)
+env notin (prod,devel)
+app=pc,rel=beta
+```
+
+# 使用标签和选择器来调度 `Pod`
+
+`Pod` 实际调度到哪个节点是无关紧要的, 对某个 `pod` 而言, 获得的计算资源和从其它 `pod` 的可访问性不受 `node` 的影响, 所以一般没有任何需要指定把 `pod` 调度到哪里的需求.
+
+有时候需要对指定工作节点有一定的要求, 比如 `gpu`, `固态`, `机械硬盘` 之类的差别.
+
+我们不会特别说明 `pod` 应该调度到哪个节点上, 因为会将应用程序和基础架构强耦合. 应用该某种方式描述对节点的需求, 使 `kubernetes` 选择一个符合这些需求的节点. 这些是通过节点和标签选择器完成.
+
+## 使用标签分类工作节点
+
+我们可以在节点上添加一个 `gpu=true` 的标签
+
+```bash
+kubectl label node xxx gpu=true
+kubectl get nodes -L gpu
+```
+
+然后将 `pod` 调度到特定的节点.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+	name: kubia-gpu
+spec:
+	nodeSelector:
+		gpu: 'true'
+	containers:
+	- image: luksa/kubia
+	   name: kubia
+```
+
+# 注解 `Pod`
+
+除标签外, 还可以使用注解, 注解也是键值对, 但注解并不是为了保存表示信息而存在的, 它们不能像标签一样用于对对象进行分组. 当我们可以通过标签选择器选择对象时, 就不存在注解选择器这样的东西.
+
+注解可以容纳更多的信息, 主要用于工具使用. 大量使用注解可以为每个 `Pod` 或其它对象添加说明, 以便每个使用该集群的人都可以快速查找有关每个单独对象的信息.
+
+## 注解相关命令
+
+```bash
+kubectl annotate pod xxx mycompany.com/xxx="foo bar"
+kubectl describe pod xxx
