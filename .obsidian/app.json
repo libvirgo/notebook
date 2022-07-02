@@ -6,5 +6,6 @@
   "vimMode": true,
   "newLinkFormat": "relative",
   "attachmentFolderPath": "./assert",
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "legacyEditor": false
 }

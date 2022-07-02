@@ -216,3 +216,22 @@ spec:
 ```bash
 kubectl annotate pod xxx mycompany.com/xxx="foo bar"
 kubectl describe pod xxx
+```
+
+# 使用命名空间对资源进行分组
+
+`namespace` 使我们能够将不属于一组的资源分到不重叠的组中, 如果有多个用户或用户组正在使用同一个 `Kubernetes` 集群, 它们各自管理自己独特的资源集合, 这种情况就应该使用各自的命名空间. 这样就不用特别担心无意中修改或删除其它用户的资源, 也无须关心名称冲突.
+
+除了隔离资源, 命名空间还可用于仅允许某些用户访问某些特定资源, 甚至限制单个用户可用的计算资源数量.
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+	name: custom-namespace
+```
+
+```bash
+kubectl create namespace xxx
+```
+
