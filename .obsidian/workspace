@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "develop/distribution/kubernates_in_action/3_pod.md",
+            "file": "develop/distribution/kubernates_in_action/4_controller.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "develop/distribution/kubernates_in_action/3_pod.md",
+                "file": "develop/distribution/kubernates_in_action/4_controller.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,6 +119,7 @@
   },
   "active": "7c431c7e94e1d786",
   "lastOpenFiles": [
+    "develop/distribution/kubernates_in_action/4_controller.md",
     "develop/distribution/kubernates_in_action/3_pod.md",
     "Untitled.md",
     "develop/distribution/kubernates_in_action/1_introduce.md",
@@ -127,7 +128,6 @@
     "develop/distribution/etcd.md",
     "develop/distribution/raft.md",
     "develop/distribution/kubernates_basic/1_concept.md",
-    "develop/distribution/kubernates_basic/2_pod.md",
-    "language/japanese/新标日上.md"
+    "develop/distribution/kubernates_basic/2_pod.md"
   ]
 }

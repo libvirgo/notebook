@@ -233,5 +233,22 @@ metadata:
 
 ```bash
 kubectl create namespace xxx
+# 管理其它命名空间的对象
+kubectl create -f xxx.yaml -n custom-namespace
 ```
 
+> 命名空间并不提供对正在运行对象的任何隔离
+
+# 停止和移除 `Pod`
+
+```bash
+kubectl delete po kubia-gpu
+# 根据选择器删除
+kubectl delete po -l create_method=manual
+# 根据命名空间删除
+kubectl delete ns custom-namespace
+# 删除当前命名空间的所有资源(几乎, 比如secret不会被删除)
+kubectl delete all --all
+# 删除整个命名空间来删除pod
+kubectl delete ns xxx
+```
