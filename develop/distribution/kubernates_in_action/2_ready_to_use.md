@@ -137,7 +137,7 @@ k scale --replicas 3 deployment/hello-deployment
 
 ## 系统的新状态
 
-![](assert/Pasted image 20220630152231.png)
+![](assert/Pasted%20image%2020220630152231.png)
 
 目前有一个服务和一个 `RC`(新版本 `RS` 替代), 并且有三个 `Pod` 实例, 它们都是由 `RS` 管理, 服务不再将所有请求发送到单个 `Pod`, 而是将它们分散到所有三个 `Pod` 中.
 

@@ -8,5 +8,6 @@
   "attachmentFolderPath": "./assert",
   "alwaysUpdateLinks": true,
   "legacyEditor": true,
-  "livePreview": false
+  "livePreview": false,
+  "useMarkdownLinks": true
 }

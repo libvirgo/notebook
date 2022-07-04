@@ -12,7 +12,20 @@
             "file": "develop/distribution/kubernates_in_action/4_controller.md",
             "mode": "source"
           }
-        }
+        },
+        "group": "dd3b781f5a43183d"
+      },
+      {
+        "id": "314c34d6b9ef00ee",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "develop/distribution/kubernates_in_action/4_controller.md",
+            "mode": "preview"
+          }
+        },
+        "group": "dd3b781f5a43183d"
       }
     ],
     "direction": "vertical"
@@ -119,13 +132,13 @@
   "active": "7c431c7e94e1d786",
   "lastOpenFiles": [
     "develop/distribution/kubernates_in_action/4_controller.md",
-    "develop/distribution/etcd.md",
-    "develop/distribution/raft.md",
-    "develop/distribution/kubernates_basic/2_pod.md",
-    "develop/distribution/kubernates_basic/1_concept.md",
     "develop/distribution/kubernates_in_action/3_pod.md",
     "develop/distribution/kubernates_in_action/2_ready_to_use.md",
     "develop/distribution/kubernates_in_action/1_introduce.md",
+    "develop/distribution/kubernates_basic/2_pod.md",
+    "develop/distribution/kubernates_basic/1_concept.md",
+    "develop/distribution/raft.md",
+    "develop/distribution/etcd.md",
     "assert/Pasted.md",
     "Untitled.md"
   ]

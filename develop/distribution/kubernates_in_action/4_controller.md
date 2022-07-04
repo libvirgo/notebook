@@ -220,6 +220,6 @@ kubectl label node app-cluster disk=ssd
 
 `Job` 对于临时任务很有用, 关键是任务要以正确的方式结束. 可以在未使用 `job` 托管的 `pod` 中运行任务并等待它完成, 但是如果发生节点异常或在执行任务的时候被从节点中逐出, 就需要重新创建该任务. 手动做这件事并不合理, 特别是任务可能需要几个小时完成.
 
-![job](assert/Pasted image 20220704175301.png)
+![job](assert/Pasted%20image%2020220704175301.png)
 
 
