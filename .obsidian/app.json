@@ -7,7 +7,7 @@
   "newLinkFormat": "relative",
   "attachmentFolderPath": "./assert",
   "alwaysUpdateLinks": true,
-  "legacyEditor": true,
-  "livePreview": false,
+  "legacyEditor": false,
+  "livePreview": true,
   "useMarkdownLinks": true
 }

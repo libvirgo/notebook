@@ -222,4 +222,92 @@ kubectl label node app-cluster disk=ssd
 
 ![job](assert/Pasted%20image%2020220704175301.png)
 
+## 定义 `Job`
 
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+	name: batch-job
+spec:
+	template:
+		metadata:
+			labels:
+				app: batch-job
+		spec:
+			restartPolicy: OnFailure
+			containers:
+			- name: main
+			   image: luksa/batch-job
+```
+
+```bash
+kubectl logs batch-job-xxx
+kubectl get job
+```
+
+## 顺序运行 `Job`
+
+可以设定一个 `Job` 运行多少次. `completions` 将使作业顺序运行 `n` 次. `Job` 将一个接一个地运行, 运行完成后创建下一个.
+
+## 并行运行 `Job`
+
+同时运行多个 `Pod` 使用 `parallelism` 配置属性
+
+## 配置属性
+
+```yaml
+spec:
+	completions: 5 # 需要完成pod的数量
+	parallelism: 2 # 可以同时运行的pod数量
+	activeDeadlineSeconds: 1 # 限制pod完成的时间
+	backoffLimit: 6 # pod被标记为失败之前可以重试的次数
+```
+
+# CronJob
+
+`CronJob` 可以再特定的时间或者指定的时间间隔内重复运行.
+
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+	name: batch-job-every-fifteen-minutes
+spec:
+	schedule: "0,15,30,45 * * * *"
+	jobTemplate:
+		spec:
+			template:
+				metadata:
+					labels:
+						app: periodic-batch-job
+				spec:
+					restartPolicy: OnFailure
+					containers:
+					- name: main
+					  image: luksa/batch-job
+```
+
+时间表从左到右包含以下五个条目:
+* 分钟
+* 小时
+* 每月中的第几天
+* 月
+* 星期几
+
+比如:
+
+```bash
+# 每月的第一天每隔30分钟
+0, 30 * 1 * *
+# 每个星期天的3AM
+0 3 * * 0
+```
+
+## 配置属性
+
+```yaml
+spec:
+	schedule: "0, 15, 30, 45 * * * *"
+	startingDeadlineSeconds: 15 # 最迟必须在预定时间后15秒开始运行
+```
