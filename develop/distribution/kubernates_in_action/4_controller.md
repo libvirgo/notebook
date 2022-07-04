@@ -177,3 +177,49 @@ selector:
 
 # DaemonSet
 
+`RS` 和 `RC` 用于在集群上运行部署特定数量的 `pod`. 当希望 `pod` 在集群中的每个节点运行时(并且每个节点都需要正好一个).
+
+这些情况包括 `pod` 执行系统级别的与基础结构相关的操作. 例如希望在每个节点上运行日志收集器和资源监控器. 另一个例子是 `kubernetes` 自己的 `kube-proxy` 进程, 它需要运行在所有节点才能工作.
+
+`DaemonSet` 在每个节点上只运行一个 `pod` 副本, 而 `RS` 则将它们随机地分布在整个集群中.
+
+`DS` 没有副本数的概念, 它的工作是确保一个集群上有一个健康的 `pod`. 如果一个节点下线, `DS` 不会在其它地方重新创建, 但是将一个新节点添加到集群中时, `DS` 会立即部署一个新的 `pod` 实例.
+
+## 配置模板
+
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+	name: ssd-monitor
+spec:
+	selector:
+		matchLabels:
+			app: ssd-monitor
+	template:
+		metadata:
+			labels:
+				app: ssd-monitor
+		spec:
+			nodeSelector:
+				disk: ssd
+			containers:
+			- name: main
+			   image: luksa/ssd-monitor
+```
+
+该实例将在每个具有 `disk=ssd` 标签的节点上创建.
+
+```bash
+kubectl label node app-cluster disk=ssd
+```
+
+# Job
+
+`Job` 允许运行一种 `pod`, 该 `pod` 在内部进程成功结束时, 不重启容器. 一旦任务完成, `pod` 就被认为处于完成状态.
+
+`Job` 对于临时任务很有用, 关键是任务要以正确的方式结束. 可以在未使用 `job` 托管的 `pod` 中运行任务并等待它完成, 但是如果发生节点异常或在执行任务的时候被从节点中逐出, 就需要重新创建该任务. 手动做这件事并不合理, 特别是任务可能需要几个小时完成.
+
+![job](assert/Pasted image 20220704175301.png)
+
+

@@ -6,7 +6,7 @@
 
 # Leader election
 
-![[./assert/Pasted image 20220623143345.png]]
+![](./assert/Pasted image 20220623143345.png)
 
 选举有两个超时时间: 选举超时和心跳超时.
 如果 `Follower` 在选举超时时间内没有收到 `Leader` 的心跳, 就会等待一次随机时间后发起一次选举.
@@ -23,13 +23,13 @@
 
 # Log replication
 
-![[./assert/Pasted image 20220623145620.png]]
+![](./assert/Pasted image 20220623145620.png)
 
 某些 `Followers` 可能没有成功的复制日志, `Leader` 会无限的重试直到所有的 `Followers` 最终存储了所有的日志条目.
 
 日志由有序编号的日志条目组成, 每个日志条目包含它被创建时的任期号和用于状态机执行的命令, 如果一个日志条目被复制到大多数的服务器上, 就被认为可以被提交了.
 
-![[./assert/Pasted image 20220623150448.png]]
+![](./assert/Pasted image 20220623150448.png)
 
 日志同步保证如下两点:
 
@@ -42,7 +42,7 @@
 
 一般情况下, `Leader` 和 `Followers` 的日志保持一致, 因此 `AppendEntries` 一致性检查通常不会失败. 然而 `Leader` 崩溃可能会导致日志不一致: 旧的 `Leader` 可能没有完全复制日志中的所有条目.
 
-![[./assert/Pasted image 20220623151149.png]]
+![](./assert/Pasted image 20220623151149.png)
 
 `Followers` 可能有新 `Leader` 没有的条目, 也有可能丢掉新 `Leader` 的一些条目. 丢失的或者多出来的会持续多个任期.
 
@@ -80,7 +80,7 @@
 
 成员变更不能影响服务的可用性, 但是变更过程的某一时刻, 可能出现在 `Cold`, `Cnew` 中同时出现两个不相交的多数派, 进而可能选出两个 `leader`, 形成不同的决议破坏安全性.
 
-![[./assert/Pasted image 20220623180249.png]]
+![](./assert/Pasted image 20220623180249.png)
 
 
 为了解决这一问题, 使用两阶段的成员变更方法.

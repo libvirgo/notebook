@@ -6,15 +6,15 @@
 
 > [Kubernetes 基础教程 | 云原生资料库 (jimmysong.io)](https://lib.jimmysong.io/kubernetes-handbook/)
 
-![[./assert/Pasted image 20220621142320.png]]
+![](assert/Pasted image 20220621142320.png)
 
-![[./assert/Pasted image 20220621142514.png]]
+![](assert/Pasted image 20220621142514.png)
 
-![[./assert/Pasted image 20220621142518.png]]
+![](./assert/Pasted image 20220621142518.png)
 
-![[./assert/Pasted image 20220621142524.png]]
+![](./assert/Pasted image 20220621142524.png)
 
-![[./assert/Pasted image 20220621142537.png]]
+![](./assert/Pasted image 20220621142537.png)
 
 ## API设计原则
 
@@ -129,7 +129,7 @@
 
 ### CRI架构
 
-![[./assert/Pasted image 20220624145500.png]]
+![](./assert/Pasted image 20220624145500.png)
 
 ### 一些支持的 `CRI` 后端
 
