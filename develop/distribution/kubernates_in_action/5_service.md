@@ -1,3 +1,6 @@
+```toc
+```
+
 `pod` 通常需要对来自集群内部的其它 `pod` 以及外部的客户端请求做出响应.
 
 `pod` 需要寻找其它 `pod` 的方法来使用其它 `pod` 提供的服务, 在没有 `kubernetes` 的世界, 系统管理员在用户端配置文件中明确指出服务的精确 `IP`地址或者主机名来配置每个客户端应用, 但是这在 `kubernetes` 中不适用, 原因如下:
@@ -116,4 +119,76 @@ backend-database.default.svc.cluster.local
 > 端口号依然需要, 标准的端口号可以忽略, 其它的需要从环境变量中获取.
 
 # 连接集群外部的服务
+
+## endpoint
+
+服务并不是和 `pod` 直接相连的, `endpoint` 介于两者之间. `endpoint` 就是暴露一个服务的 `ip` 和端口的列表, `endpoint` 资源和其它的资源一样, 可以使用 `kubectl get endpoints` 来获取它的基本信息.
+
+服务的 `endpoint` 与服务解耦后, 就可以分别手动配置和更新它们. 如果创建了不包含 `pod` 选择器的服务,  `kubernetes` 将不会创建 `endpoint` 资源.
+
+要使用手动配置 `endpoint` 的方式创建服务, 需要创建服务和 `endpoint` 资源.
+
+```yaml
+# 创建没有选择器的服务
+apiVersion: v1
+kind: Service
+metadata:
+	name: external-service
+spec:
+	ports:
+		- port: 80
+
+```
+
+```yaml
+# 为没有选择器的服务创建 `endpoint` 资源
+apiVersion: v1
+kind: Endpoints
+metadata:
+	# 必须跟服务相同
+	name: external-service
+subsets:
+	- addresses:
+		- ip: 11.11.11.11
+		- ip: 22.22.22.22
+	   ports:
+		   - port: 80
+```
+
+这意味着服务的 `ip` 可以保持不变, 同时服务的实际实现发生了改变.
+
+而通过 `endpoint` 也可以将 `ip` 指向外部服务或其它集群的 `ip` 端口, 这样集群内部访问外部服务也可以使用 `external-service` 当做 `hostname` 来使用, 类似反向代理.
+
+使用 `Service` 反向代理外部域名:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+	labels:
+		app: nginx-externalname
+	name: nginx-externalName
+spec:
+	type: ExternalName
+	externalName: www.baidu.com # 指定反代的域名, 可能有跨域问题.
+```
+
+# 将服务暴露给外部客户端
+
+* 将服务的类型设置为 `NodePort`, 每个集群节点都会在节点上打开一个端口, 对于 `NodePort` 服务, 每个集群节点在节点本身上打开一个端口, 并将在该端口上接收到的流量重定向到基础服务, 该服务仅在内部集群 `ip` 和端口上才可以访问, 但也可以通过所有节点上的专用端口访问.
+* `LoadBalance`, `NodePort` 类型的拓展, 使得服务可以通过一个专用的负载均衡器来访问, 这是由 `kubernetes` 中正在运行的云基础设施提供. 负载均衡器将流量重定向到跨所有节点的节点端口, 客户端通过负载均衡器的 `ip` 连接到服务.
+* `Ingress` 资源. 通过一个 `ip` 地址公开多个服务, 运行在 `http` 层, 因此可以提供比工作在第四层的服务更多的功能.
+
+## NodePort
+
+```yaml
+spec:
+	type: NodePort
+	ports:
+	- port: 80
+	   targetPort: 8080
+	   nodePort: 30123
+```
+
+![](assert/Pasted%20image%2020220705135742.png)
 
