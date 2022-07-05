@@ -191,4 +191,121 @@ spec:
 ```
 
 ![](assert/Pasted%20image%2020220705135742.png)
+`NodePort` 依赖暴露的节点 `ip`, 所以当某个节点不工作后就会影响到服务的运行.
+
+`LoadBalancer` 会选择健康的节点上的服务.
+
+## LoadBalancer
+
+`LoadBalancer` 需要在支持的云基础架构中设置, 否则会表现得同 `NodePort` 一样.
+
+```yaml
+spec:
+	type: LoadBalancer
+	ports:
+	- port: 80
+	   targetPort: 8080
+```
+
+## 外部连接的特性
+
+### 了解并防止不必要的网络跳数
+
+```yaml
+spec:
+	externalTrafficPolicy: Local
+```
+
+该服务配置为仅将外部通信重定向到接受连接的节点上运行的 `pod` 来组织额外的网络跳转. 如果没有本地 `pod` 存在, 连接会挂起, 因此需要确保负载均衡器将链接转发给至少具有一个 `pod` 的节点.
+
+使用该注解还有其它缺点. 可能会导致跨 `pod` 的负载分布不均衡.
+
+### 记住客户端 `IP` 是不记录的
+
+后端的 `pod` 无法看到实际的客户端 `ip`, 这对于某些需要了解客户端 `ip` 的应用程序是个问题. 比如日志记录无法显示浏览器的 `ip`.
+
+# Ingress
+
+> `Ingress` :: 进入或进入的行为; 进入的权利; 进入的手段或地点; 入口.
+
+## 为什么需要 `Ingress`
+
+每个 `LoadBalancer` 服务都需要自己的负载均衡器, 以及独有的公有 `ip`, 而 `Ingress` 只需要一个公网 `IP` 就能为许多服务提供访问. 当客户端向 `Ingress` 发送 `HTTP` 请求时, `Ingress` 会根据请求的主机名和路径决定请求发送到的服务.
+
+`Ingress` 在 `HTTP` 应用层操作, 可以提供一些服务不能实现的功能, 诸如基于 `cookie` 的会话亲和性等功能.
+
+**必须有 `Ingress` 控制器才可以使用 `Ingress` 资源**
+
+不同的 `kubernetes` 使用不同的控制器实现. 
+
+## 创建 `Ingress` 资源
+
+```yaml
+apiVersion: networking.k8s.io/v1  
+kind: Ingress  
+metadata:  
+  name: hello-ingress  
+spec:  
+  rules:  
+    - host: kubia.example.com
+       http:  
+        paths:  
+          - pathType: Prefix  
+            path: "/"  
+            backend:  
+              service:  
+                name: hello-service  
+                port:  
+                  number: 8080
+```
+
+## 工作原理
+
+![](assert/Pasted%20image%2020220705151509.png)
+
+## 暴露多个服务
+
+```yaml
+- host: kubia.example.com
+   http:
+	   paths:
+	   - path: /kubia
+	      backend:
+		      serviceName: kubia
+		      servicePort: 80
+	   - path: /foo
+	      backend:
+		      serviceName: bar
+		      servicePort: 80
+```
+
+通过一个 `ip` 的不同 `path` 访问不同的服务.
+
+同理, 也可以根据 `host` 区分不同的服务.
+
+## 通过 `Ingress` 处理 `TLS`
+
+客户端和控制器之间的通信加密, 控制器和后端 `pod` 之间的通信则不是, 运行在 `pod` 上的应用程序不需要支持 `TLS`. `TLS` 相关内容只需要交给 `Ingress` 去处理.
+
+```bash
+openssl genrsa -out tls.key 2045
+openssl req -new -x509 -key tls.key -out tls.cert -days 360 -subj /CN=kubia.example.com
+kubectl create secret tls tls-secret --cert=tls.cert --key=tls.key
+```
+
+私钥和证书现在存储在名为 `tls-secret` 的 `Secret` 中, 配置 `Ingress` 资源:
+
+```yaml
+spec:
+	tls:
+	- hosts:
+	   - kubia.example.com
+	   secretName: tls-secret
+```
+
+# `Pod` 就绪后发出信号
+
+假如一个 `pod` 还没有准备, 可能需要时间来加载配置或数据, 或者可能需要执行预热过程. 在这种情况下不希望该 `pod` 立即开始接受请求, 在 `pod` 完全准备就绪前不要将请求转发.
+
+## 就绪探针
 
