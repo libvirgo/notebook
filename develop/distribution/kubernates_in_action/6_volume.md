@@ -156,7 +156,7 @@ spec:
   resources:  
     requests:  
       storage: 1Gi  
-  storageClassName: ""
+  storageClassName: "" # 这里指定空字符串可以确保PVC绑定到预先配置的PV, 而不是动态配置新的PV
 ```
 
 ## 测试持久卷
@@ -199,3 +199,94 @@ spec:
 # 动态配置持久卷
 
 ## StorageClass
+
+使用持久卷和持久卷声明可以轻松获得持久化存储资源, 但这仍然需要一个集群管理员来支持实际的存储. `kubernetes` 还可以通过动态配置持久卷来自动执行此任务.
+
+与管理员预先提供一组持久卷不同, 它们需要定义一个或多个 `StorageClass`, 并允许系统在每次通过持久卷声明请求时创建一个新的持久卷. 最重要的是, 不可能耗尽持久卷(但是可以用完存储空间)
+
+## 在 `kind` 中使用 `NFS` 作为 `StorageClass`
+
+1. 在 `mac` 上启动 `nfs` 服务器
+
+```text
+# /etc/exports
+$HOME/.local/share/nfs -alldirs -maproot=501:20 -network=192.168.0.0 -mask=255.255.0.0
+$HOME/.local/share/nfs -alldirs -maproot=501:20 localhost
+
+# /etc/nfs.conf
+nfs.server.mount.require_resv_port = 0
+```
+
+```bash
+sudo nfsd restart
+sudo nfsd status
+showmount -e
+```
+
+2. 使用 [nfs-subdir-external-provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner) 作为 `provisioner`
+
+	根据文档创建对应的文件
+
+```yaml
+# kustomization.yaml
+namespace: nfs-provisioner
+resources:
+  - github.com/kubernetes-sigs/nfs-subdir-external-provisioner//deploy
+  - namespace.yaml
+patchesStrategicMerge:
+  - patch_nfs_details.yaml
+# namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nfs-provisioner
+# patch_nfs_detail.tmpl
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nfs-client-provisioner
+  name: nfs-client-provisioner
+spec:
+  template:
+    spec:
+      containers:
+        - name: nfs-client-provisioner
+          env:
+            - name: NFS_SERVER
+              value: 192.168.0.100
+            - name: NFS_PATH
+              value: ${HOME}/.local/share/nfs
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 192.168.0.100
+            path: ${HOME}/.local/share/nfs
+```
+
+```bash
+# 先根据环境变量使用envsubst生成最终的yaml文件
+for f in *.tmpl; do envsubst < $f > "$(basename -s .tmpl $f).yaml"; done
+# 使用kustomization来部署provisioner
+kubectl apply -k .
+# 用于测试
+kubectl create -f https://raw.githubusercontent.com/kubernetes-sigs/nfs-subdir-external-provisioner/master/deploy/test-claim.yaml -f https://raw.githubusercontent.com/kubernetes-sigs/nfs-subdir-external-provisioner/master/deploy/test-pod.yaml
+```
+
+3. 使用持久卷声明请求特定存储类
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+	name: test-claim
+spec:
+	storageClassName: nfs-client
+	resources:
+		requests:
+			storage: 100Mi
+	accessModes:
+		- ReadWriteMany
+```
+
+![](assert/Pasted%20image%2020220707010210.png)
