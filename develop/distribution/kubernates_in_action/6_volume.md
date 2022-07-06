@@ -177,7 +177,8 @@ spec:
         - "touch /mnt/Success && exit 0 || exit 1"  
       volumeMounts:  
         - mountPath: "/mnt"  
-          name: redis-test  
+           name: redis-test  
+           subPath: "redis-test" # 可以在多个pod中引用同一个claim并分开它们的数据目录.
   restartPolicy: Never  
   volumes:  
     - name: redis-test  
@@ -185,3 +186,16 @@ spec:
         claimName: redis-pvc
 ```
 
+使用这种间接方法从基础设施获取存储, 对于应用程序开发人员来说更加简单. 虽然这需要额外的步骤创建持久卷和持久卷声明, 但是研发人员不需要关心底层实际使用的存储技术.
+
+![](assert/Pasted%20image%2020220706164145.png)
+
+持久卷回收策略有如下几种:
+
+* `Retain` :: 在创建持久卷后将其持久化, 让 `kubernetes` 可以在持久卷从持久卷声明中释放后仍然能保留它的卷和数据内容. 这是手动方式, 唯一可以使其恢复可用的方法是删除和重新创建持久卷资源. 可以自己决定如何处理底层存储中的文件, 删除或者闲置, 闲置以便在下一个 `pod` 中复用.
+* `Recycle` :: 删除卷的内容并使卷可用于再次声明 :: 已经废弃, 被建议使用 `dynamic provisioning`
+* `Delete` :: 删除底层存储
+
+# 动态配置持久卷
+
+## StorageClass
