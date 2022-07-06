@@ -309,3 +309,72 @@ spec:
 
 ## 就绪探针
 
+像存活探针一样, 就绪探针有相同的三种类型:
+1. `Exec`
+2. `HTTP GET`
+3. `TCP Socket`
+
+与存活探针不同, 如果容器未通过准备检查, 则不会被终止或重新启动. 这是两者最大的区别. 就绪探针会在 `pod` 准备就绪后将该 `pod` 添加到服务中, 保证只有准备好处理请求的 `pod` 才会接收转发请求.
+
+如果就绪探测失败, 会将该容器从服务的 `endpoints` 中移除, 连接到该服务的客户端不会被重定向到该 `pod`.
+
+![](assert/Pasted%20image%2020220705155145.png)
+
+## 添加就绪探针
+
+```yaml
+kind: ReplicationController
+...
+spec:
+	...
+	template:
+		...
+		spec:
+			containers:
+			- name: kubia
+			   image: luksa/kubia
+			   readinessProbe:
+				   exec:
+				     command:
+				     - ls
+				     - /var/ready
+```
+
+# Headless
+
+后端/客户端的 `pod` 可能需要连接到所有的 `pod`. `kubernetes` 允许客户通过 `DNS` 查找发现 `pod` 的 `ip`, 通常执行 `DNS` 时只会返回单个 `ip`(服务的集群 `ip`), 如果告诉 `kubernetes` 不需要为服务提供集群 `ip`(在服务的 `spec` 中将 `clusterIP` 设置为 `None`), 则 `DNS` 服务器将返回 `pod` 的 `ip` 列表而不是单个服务 `ip`.
+
+## 创建 `headless` 服务
+
+将服务 `spec` 中的 `clusterIP` 字段设置为 `None` 会使该服务成为 `headless` 服务, 因为 `Kubernetes` 不会为其分配集群 `ip`, 客户端可以通过该 `ip` 将其连接到支持它的 `pod`.
+
+```yaml
+metadata:
+	name: kubia-headless
+spec:
+	clusterIP: None
+	ports:
+	- port: 80
+	   targetPort: 8080
+	selector:
+		app: kubia
+```
+
+## 通过 `DNS` 发现服务
+
+```yaml
+kubectl exec dnsutils nslookup kubia-headless
+#Name: kubia-headless.default.svc.clus七er.local
+#Address: 10.108.1.4
+#Name: kubia-headless.default.svc.clus七er.local
+#Address: 10.108.2.5
+```
+
+即使使用 `headless` 服务也可以通过连接到该服务的 `DNS` 名称来连接到 `pod` 上.
+
+对于 `headless` 服务, 由于 `DNS` 返回了 `pod` 的 `ip`, 客户端直接连接到该 `pod`, 而不是通过服务代理.
+
+> `headless` 服务仍然提供负载平衡, 但是通过 `DNS` 轮询机制而不是通过服务代理.
+
+## 发现所有的 `pod`
+
