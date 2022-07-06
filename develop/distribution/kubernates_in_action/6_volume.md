@@ -124,3 +124,64 @@ volumes:
 持久卷声明可以当做 `pod` 中的一个卷来使用, 其它用户不能使用相同的持久卷, 除非释放掉.
 
 ![](assert/Pasted%20image%2020220705183445.png)
+
+## 创建持久卷
+
+```yaml
+apiVersion: v1  
+kind: PersistentVolume  
+metadata:  
+  name: redis-pv  
+spec:  
+  capacity:  
+    storage: 2Gi  
+  accessModes:  
+    - ReadWriteMany  
+  persistentVolumeReclaimPolicy: Retain  
+  nfs:  
+    path: "${HOME}/.local/nfs" # envsubst < pvc.yml  
+    server: "host.docker.internal" 
+```
+
+## 创建持久卷声明
+
+```yaml
+apiVersion: v1  
+kind: PersistentVolumeClaim  
+metadata:  
+  name: redis-pvc  
+spec:  
+  accessModes:  
+    - ReadWriteMany  
+  resources:  
+    requests:  
+      storage: 1Gi  
+  storageClassName: ""
+```
+
+## 测试持久卷
+
+```yaml
+apiVersion: v1  
+kind: Pod  
+metadata:  
+  name: redis-test  
+spec:  
+  containers:  
+    - name: redis-pvc  
+      image: busybox:stable  
+      command:  
+        - "/bin/sh"  
+      args:  
+        - "-c"  
+        - "touch /mnt/Success && exit 0 || exit 1"  
+      volumeMounts:  
+        - mountPath: "/mnt"  
+          name: redis-test  
+  restartPolicy: Never  
+  volumes:  
+    - name: redis-test  
+      persistentVolumeClaim:  
+        claimName: redis-pvc
+```
+
