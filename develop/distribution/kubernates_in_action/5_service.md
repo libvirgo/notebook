@@ -146,14 +146,14 @@ spec:
 apiVersion: v1
 kind: Endpoints
 metadata:
-	# 必须跟服务相同
-	name: external-service
+  # 必须跟服务相同
+  name: external-service
 subsets:
-	- addresses:
-		- ip: 11.11.11.11
-		- ip: 22.22.22.22
-	   ports:
-		   - port: 80
+  - addresses:
+      - ip: 11.11.11.11
+      - ip: 22.22.22.22
+    ports:
+      - port: 80
 ```
 
 这意味着服务的 `ip` 可以保持不变, 同时服务的实际实现发生了改变.
