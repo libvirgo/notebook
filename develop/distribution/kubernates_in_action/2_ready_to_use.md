@@ -59,7 +59,7 @@ metadata:
 spec:  
   containers:  
     - name: hello  
-       image: hello-world:v1  
+      image: hello-world:v1  
 ```
 
 5. 编写 `Service` 描述文件暴露端口

@@ -21,15 +21,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-	name: kubia-liveness
+  name: kubia-liveness
 spec:
-	containers:
-	- image: luksa/kubia-unhealthy
-	   name: kubia
-	   livenessProbe:
-		   httpGet:
-			   path: /
-			   port: 8080
+  containers:
+  - image: luksa/kubia-unhealthy
+    name: kubia
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8080
 ```
 
 可以通过 `kubectl logs mypod --previous` 查看上一次容器终止的日志.
@@ -162,11 +162,11 @@ spec:
 
 ```yaml
 selector:
-	matchExpressions:
-		- key: app
-		   operator: In
-		   values:
-			   - kubia
+  matchExpressions:
+    - key: app
+      operator: In
+      values:
+        - kubia
 ```
 
 有四个有效的运算符:
@@ -191,21 +191,21 @@ selector:
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-	name: ssd-monitor
+  name: ssd-monitor
 spec:
-	selector:
-		matchLabels:
-			app: ssd-monitor
-	template:
-		metadata:
-			labels:
-				app: ssd-monitor
-		spec:
-			nodeSelector:
-				disk: ssd
-			containers:
-			- name: main
-			   image: luksa/ssd-monitor
+  selector:
+    matchLabels:
+      app: ssd-monitor
+  template:
+    metadata:
+      labels:
+        app: ssd-monitor
+    spec:
+      nodeSelector:
+        disk: ssd
+      containers:
+        - name: main
+          image: luksa/ssd-monitor
 ```
 
 该实例将在每个具有 `disk=ssd` 标签的节点上创建.
@@ -228,17 +228,17 @@ kubectl label node app-cluster disk=ssd
 apiVersion: batch/v1
 kind: Job
 metadata:
-	name: batch-job
+  name: batch-job
 spec:
-	template:
-		metadata:
-			labels:
-				app: batch-job
-		spec:
-			restartPolicy: OnFailure
-			containers:
-			- name: main
-			   image: luksa/batch-job
+  template:
+    metadata:
+      labels:
+        app: batch-job
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: main
+        image: luksa/batch-job
 ```
 
 ```bash
@@ -258,10 +258,10 @@ kubectl get job
 
 ```yaml
 spec:
-	completions: 5 # 需要完成pod的数量
-	parallelism: 2 # 可以同时运行的pod数量
-	activeDeadlineSeconds: 1 # 限制pod完成的时间
-	backoffLimit: 6 # pod被标记为失败之前可以重试的次数
+  completions: 5 # 需要完成pod的数量
+  parallelism: 2 # 可以同时运行的pod数量
+  activeDeadlineSeconds: 1 # 限制pod完成的时间
+  backoffLimit: 6 # pod被标记为失败之前可以重试的次数
 ```
 
 # CronJob
@@ -272,20 +272,20 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-	name: batch-job-every-fifteen-minutes
+  name: batch-job-every-fifteen-minutes
 spec:
-	schedule: "0,15,30,45 * * * *"
-	jobTemplate:
-		spec:
-			template:
-				metadata:
-					labels:
-						app: periodic-batch-job
-				spec:
-					restartPolicy: OnFailure
-					containers:
-					- name: main
-					  image: luksa/batch-job
+  schedule: "0,15,30,45 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: periodic-batch-job
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: main
+              image: luksa/batch-job
 ```
 
 时间表从左到右包含以下五个条目:

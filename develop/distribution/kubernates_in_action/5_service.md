@@ -20,13 +20,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-	name: kubia
+    name: kubia
 spec:
-	ports:
-	- port: 80
-	  targetPort: 808
-	selector:
-		app: kubia
+    ports:
+    - port: 80
+       targetPort: 808
+    selector:
+        app: kubia
 ```
 
 也可以通过 `kubectl expose` 创建服务.
@@ -54,15 +54,16 @@ kubectl exec kubia-xkcj -- curl -s http://service_ip:port
 
 ```yaml
 spec:
-	ports:
-	- name: http
-	  port: 80
-	  targetPort: 8080
-	- name: https
-	  port: 443
-	  targetPort: 8443
-	selector:
-		app: kubia
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+    - name: https
+      port: 443
+      targetPort: 8443
+  selector:
+    app: kubiak
+
 ```
 
 > 标签选择器应用于整个服务, 不能为每个端口设置不同的 `pod`. 这种情况需要创建多个服务.
@@ -73,24 +74,24 @@ spec:
 
 ```yaml
 spec:
-	containers:
-		- name: kubia
-		  ports:
-		  - name: http
-		    containerPort: 8080
-		  - name: https
-		    containerPort: 8443
+  containers:
+    - name: kubia
+      ports:
+      - name: http
+        containerPort: 8080
+      - name: https
+        containerPort: 8443
 ---
 spec:
-	ports:
-	- name: http
-	  port: 80
-	  targetPort: http
-	- name: https
-	  port: 443
-	  targetPort: https
-	selector:
-		app: kubia
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+  - name: https
+    port: 443
+    targetPort: https
+  selector:
+    app: kubia
 ```
 
 ## 服务发现
@@ -133,10 +134,10 @@ backend-database.default.svc.cluster.local
 apiVersion: v1
 kind: Service
 metadata:
-	name: external-service
+  name: external-service
 spec:
-	ports:
-		- port: 80
+  ports:
+    - port: 80
 
 ```
 
@@ -165,12 +166,12 @@ subsets:
 apiVersion: v1
 kind: Service
 metadata:
-	labels:
-		app: nginx-externalname
-	name: nginx-externalName
+  labels:
+    app: nginx-externalname
+  name: nginx-externalName
 spec:
-	type: ExternalName
-	externalName: www.baidu.com # 指定反代的域名, 可能有跨域问题.
+  type: ExternalName
+  externalName: www.baidu.com # 指定反代的域名, 可能有跨域问题.
 ```
 
 # 将服务暴露给外部客户端
@@ -183,11 +184,11 @@ spec:
 
 ```yaml
 spec:
-	type: NodePort
-	ports:
-	- port: 80
-	   targetPort: 8080
-	   nodePort: 30123
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 8080
+    nodePort: 30123
 ```
 
 ![](assert/Pasted%20image%2020220705135742.png)
@@ -201,10 +202,10 @@ spec:
 
 ```yaml
 spec:
-	type: LoadBalancer
-	ports:
-	- port: 80
-	   targetPort: 8080
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
 ```
 
 ## 外部连接的特性
@@ -213,7 +214,7 @@ spec:
 
 ```yaml
 spec:
-	externalTrafficPolicy: Local
+  externalTrafficPolicy: Local
 ```
 
 该服务配置为仅将外部通信重定向到接受连接的节点上运行的 `pod` 来组织额外的网络跳转. 如果没有本地 `pod` 存在, 连接会挂起, 因此需要确保负载均衡器将链接转发给至少具有一个 `pod` 的节点.
@@ -267,16 +268,16 @@ spec:
 
 ```yaml
 - host: kubia.example.com
-   http:
-	   paths:
-	   - path: /kubia
-	      backend:
-		      serviceName: kubia
-		      servicePort: 80
-	   - path: /foo
-	      backend:
-		      serviceName: bar
-		      servicePort: 80
+  http:
+    paths:
+      - path: /kubia
+        backend:
+        serviceName: kubia
+        servicePort: 80
+      - path: /foo
+        backend:
+          serviceName: bar
+          servicePort: 80
 ```
 
 通过一个 `ip` 的不同 `path` 访问不同的服务.
@@ -297,10 +298,10 @@ kubectl create secret tls tls-secret --cert=tls.cert --key=tls.key
 
 ```yaml
 spec:
-	tls:
-	- hosts:
-	   - kubia.example.com
-	   secretName: tls-secret
+  tls:
+  - hosts:
+      - kubia.example.com
+    secretName: tls-secret
 ```
 
 # `Pod` 就绪后发出信号
@@ -326,18 +327,18 @@ spec:
 kind: ReplicationController
 ...
 spec:
-	...
-	template:
-		...
-		spec:
-			containers:
-			- name: kubia
-			   image: luksa/kubia
-			   readinessProbe:
-				   exec:
-				     command:
-				     - ls
-				     - /var/ready
+  ...
+  template:
+    ...
+    spec:
+      containers:
+        - name: kubia
+          image: luksa/kubia
+          readinessProbe:
+          exec:
+          command:
+            - ls
+            - /var/ready
 ```
 
 # Headless
@@ -350,14 +351,14 @@ spec:
 
 ```yaml
 metadata:
-	name: kubia-headless
+  name: kubia-headless
 spec:
-	clusterIP: None
-	ports:
-	- port: 80
-	   targetPort: 8080
-	selector:
-		app: kubia
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: kubia
 ```
 
 ## 通过 `DNS` 发现服务

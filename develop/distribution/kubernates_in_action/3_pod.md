@@ -196,13 +196,13 @@ kubectl get nodes -L gpu
 apiVersion: v1
 kind: Pod
 metadata:
-	name: kubia-gpu
+  name: kubia-gpu
 spec:
-	nodeSelector:
-		gpu: 'true'
-	containers:
-	- image: luksa/kubia
-	   name: kubia
+  nodeSelector:
+    gpu: 'true'
+  containers:
+    - image: luksa/kubia
+      name: kubia
 ```
 
 # 注解 `Pod`
@@ -228,7 +228,7 @@ kubectl describe pod xxx
 apiVersion: v1
 kind: Namespace
 metadata:
-	name: custom-namespace
+  name: custom-namespace
 ```
 
 ```bash

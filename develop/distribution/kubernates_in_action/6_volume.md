@@ -23,26 +23,26 @@
 ```yaml
 kind: Pod
 metadata:
-	name: fortune
+    name: fortune
 spec:
-	containers:
-	- image: luksa/fortune
+    containers:
+    - image: luksa/fortune
        name: html-generator
        volumeMounts:
-	       - name: html
-	          mountPath: /var/htdocs
-	- image: nginx:alpine
-	   name: web-server
-	   volumeMounts:
-		   - name: html
-		      mountPath: /usr/share/nginx/html # 将上面相同的卷挂载在容器的 /usr/share/nginx/html 目录下
-		      readOnly: true
-	   ports:
-	   - containerPort: 80
-	      protocol: TCP
-	volumes:
-	- name: html
-	   emptyDir: {}
+            - name: html
+               mountPath: /var/htdocs
+    - image: nginx:alpine
+       name: web-server
+       volumeMounts:
+           - name: html
+              mountPath: /usr/share/nginx/html # 将上面相同的卷挂载在容器的 /usr/share/nginx/html 目录下
+              readOnly: true
+       ports:
+        - containerPort: 80
+           protocol: TCP
+    volumes:
+    - name: html
+       emptyDir: {}
 ```
 
 `emptyDir` 默认使用承载 `pod` 的工作节点的实际磁盘上创建的, 但我们可以通知 `Kubernetes` 在内存而不是磁盘上创建.
@@ -66,11 +66,11 @@ volumes:
 
 ```yaml
 volumes:
-	- name: html
-	   gitRepo:
-		   repository: https://github.com/example/example.git
-		   revision: master
-		   directory: . # 克隆到卷的根目录
+    - name: html
+       gitRepo:
+            repository: https://github.com/example/example.git
+            revision: master
+            directory: . # 克隆到卷的根目录
 ```
 
 通常这种卷应该使用 `sidecar` 容器, 可以在 `docker hub` 上寻找 `git sync` 镜像来作为 `pod` 的 `sidecar` 容器, 而不是将同步逻辑放到主容器中.
@@ -101,8 +101,8 @@ volumes:
 volumes:
 - name: mongodb-data
    nfs:
-	   server: 10.1.2.105
-	   path: /Users/test/.local/nfs/db/mongodb
+        server: 10.1.2.105
+        path: /Users/test/.local/nfs/db/mongodb
 ```
 
 # 从底层存储技术解耦 `pod`
@@ -279,14 +279,14 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes-sigs/nfs-subdir-e
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-	name: test-claim
+    name: test-claim
 spec:
-	storageClassName: nfs-client
-	resources:
-		requests:
-			storage: 100Mi
-	accessModes:
-		- ReadWriteMany
+    storageClassName: nfs-client
+    resources:
+        requests:
+            storage: 100Mi
+    accessModes:
+        - ReadWriteMany
 ```
 
 ![](assert/Pasted%20image%2020220707010210.png)
