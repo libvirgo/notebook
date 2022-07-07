@@ -32,10 +32,10 @@ docker run <image> <arguments>
 ```yaml
 kind: Pod
 spec:
-	containers:
-	- image: <image>
-	   command: ["/bin/command"]
-	   args: ["arg1", "arg2", "arg3"]
+    containers:
+    - image: <image>
+        command: ["/bin/command"]
+        args: ["arg1", "arg2", "arg3"]
 ```
 
 绝大多数下只需要自定义参数, 命令一般很少被覆盖, 除非针对一些未定义的通用镜像.

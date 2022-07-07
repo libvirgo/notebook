@@ -9,5 +9,6 @@
   "alwaysUpdateLinks": true,
   "legacyEditor": false,
   "livePreview": true,
-  "useMarkdownLinks": true
+  "useMarkdownLinks": true,
+  "useTab": false
 }
