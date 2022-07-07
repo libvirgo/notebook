@@ -308,6 +308,6 @@ spec:
 
 ```yaml
 spec:
-	schedule: "0, 15, 30, 45 * * * *"
-	startingDeadlineSeconds: 15 # 最迟必须在预定时间后15秒开始运行
+    schedule: "0, 15, 30, 45 * * * *"
+    startingDeadlineSeconds: 15 # 最迟必须在预定时间后15秒开始运行
 ```

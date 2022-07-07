@@ -145,7 +145,7 @@ k scale --replicas 3 deployment/hello-deployment
 
 也可以使用 `kubectl describe` 描述一个 `Pod`.
 
-# `Dashboard`
+# Dashboard
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/aio/deploy/recommended.yaml
