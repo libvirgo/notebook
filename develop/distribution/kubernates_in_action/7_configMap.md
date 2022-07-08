@@ -265,3 +265,108 @@ token
 ```
 
 包含了从 `pod` 内部安全访问 `kubernetes API` 服务器所需的全部信息.
+
+## 创建 `Secret`
+
+```bash
+openssl genrsa -out https.key 2048
+openssl req -new -x509 -key https.key -out https.cert -days 3650 -subj /CN=www.example.com
+echo bar > foo
+```
+
+如上命令生成了三个文件.
+
+```bash
+kubectl create secret generic hello-https --from-file=https.key --from-file=https.cert --from-file=foo
+kubectl get secrets hello-https -o yaml
+```
+
+可以注意到条目会被以 `base64` 编码处理.
+
+> `Secret` 也可以被用来存储非敏感二进制数据, 不过大小限于 `1MB`.
+
+`kubernetes` 允许通过 `Secret` 的 `stringData` 字段设置条目的纯文本值.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data: # 注意data的value需要用base64工具处理过 cat hello.txt | base64
+  username: YWRtaW4=
+  password: MWYyZDFlMmU2N2Rm
+stringData: # 只写, 可以用来存放非base64数据, 会在创建或更新后自动base64处理
+  config.yaml: |
+    apiUrl: "https://my.api.com/api/v1"
+    username: <user>
+    password: <password> 
+```
+
+在 `pod` 中使用
+
+```yaml
+apiVersion: v1  
+kind: Pod  
+spec:  
+  containers:  
+    - image: nginx:alpine  
+      name: web-server  
+      volumeMounts:  
+        - mountPath: /etc/nginx/certs  
+          name: certs  
+          readOnly: true  
+  
+  volumes:  
+    - name: certs  
+      secret:  
+        secretName: hello-https
+```
+
+`Secret` 使用 `tmpfs` 挂载, 不会写入磁盘, 这样就无法被窃取.
+
+## 通过环境变量暴露
+
+```yaml
+apiVersion: v1  
+kind: Pod  
+spec:  
+  containers:  
+    - image: nginx:alpine  
+      name: web-server  
+      env:  
+        - name: SECRET  
+          valueFrom:  
+            secretKeyRef:  
+              key: hello.txt  
+              name: hello-https  
+  
+  volumes:  
+    - name: certs  
+      secret:  
+        secretName: hello-https
+```
+
+> 敏感数据建议不要使用环境变量暴露
+
+## 创建用于私有镜像仓库鉴权的 `Secret`
+
+```bash
+kubectl create secret docker-registry mydockersecret \
+--docker-username=xxx --dorkcer-password=xxx \
+--docker-email=myemail@provider.com
+```
+
+```yaml
+apiVersion: v1  
+kind: Pod  
+spec:  
+  imagePullSecrets:  
+    - mydockerhubsecret  
+  containers:  
+    - image: private.repo.com/image:tag  
+      name: web-server
+```
+
+> 可以通过添加 `Secret` 到 `ServiceAccount` 使所有 `pod` 都能自动添加上镜像拉取 `Secret`
+
