@@ -140,7 +140,7 @@ apiVersion: apps/v1
 ```
 
 ```bash
-kubectl create -f kubia-deployment-v1.yaml --record # record deprecated
+kubectl create -f kubia-deployment-v1.yaml --record # record deprecated, 在没有替代方案前可以使用, 不然在rollout history里会显示none
 kubectl rollout status deployment xxx # 查看部署状态
 ```
 
@@ -247,3 +247,18 @@ hello from v2:hello-deployment-55dbc89fc-bvpgfn
 ```bash
 kubectl rollout undo deployment xxx
 ```
+
+老版本的 `RS` 不会被删除, 使得回滚操作可以回滚到任何一个历史版本.
+
+```bash
+kubectl rollout history deployment xxx
+kubectl rollout undo deployment xxxx --to-revision=1
+```
+
+由 `Deployment` 创建的所有 `RS` 表示完整的修改版本历史, 每个 `RS` 都用特定的版本号来保存 `Deployment` 的完整信息, 所以不应该手动删除 `ReplicaSet`. 否则会丢失历史版本记录而导致无法回滚.
+
+默认情况下只有当前版本和上一个版本的历史, 可以通过指定 `revisionHistoryLimit` 属性来限制数量.
+
+# 控制升级速率
+
+有两个属性会决定一次替换多少个 `pod`
