@@ -242,7 +242,7 @@ hello from v2:hello-deployment-55dbc89fc-bvpgfn
 
 与之前不同的是, 旧的 `RS` 会被保留, 而之前旧的 `RC` 会在滚动升级过程结束后被删除.
 
-# 回滚 `Deployment
+## 回滚 `Deployment
 
 ```bash
 kubectl rollout undo deployment xxx
@@ -259,6 +259,40 @@ kubectl rollout undo deployment xxxx --to-revision=1
 
 默认情况下只有当前版本和上一个版本的历史, 可以通过指定 `revisionHistoryLimit` 属性来限制数量.
 
-# 控制升级速率
+## 控制升级速率
 
 有两个属性会决定一次替换多少个 `pod`
+
+
+| attribute | mean |
+| --- | --- |
+| maxSurge | 决定了 `Deployment` 配置中期望的副本数之外, 最多允许超出的 `pod` 市里的数量, 默认值为 `25%`. |
+| maxUnavailable | 决定了在滚动升级期间, 允许有多少 `pod` 实例处于不可用的状态, 默认也是 `25%` |
+
+![](assert/Pasted%20image%2020220711182642.png)
+
+```bash
+kubectl rollout pause deployment xxx
+kubectl rollout resume deployment xxx
+```
+
+可以使用 `pause` 来升级一部分, 但想要在一个确切的位置暂停滚动升级目前还无法做到, 目前正确的金丝雀发布是使用两个不同的 `Deployment` 并同时调整它们对应的 `pod` 数量.
+
+> 如果被暂停, 那么在恢复部署之前, 撤销命令不会撤销它
+
+## 阻止出错版本的滚动升级
+
+`minReadySeconds` 主要功能是避免部署出错版本的应用, 该属性指定新创建的 `pod` 至少要成功运行多久之后才视其为可用. 当所有容器的就绪探针返回成功时, 并且经过 `minReadySeconds` 后 `pod` 才被标记为就绪状态. 如果一个新的 `pod` 运行出错, 并且在 `minReadySeconds` 时间内它的就绪探针出现了失败, 那么新版本的滚动升级将被阻止.
+
+使用这个属性可以通过让 `kubernetes` 在 `pod` 就绪之后继续等待, 然后继续滚动升级. 通常情况下需要设置为更高的值.
+
+```yaml
+readinessProbe:  
+  periodSeconds: 1  
+  httpGet:  
+    port: 8000  
+    path: /
+```
+
+可以通过设置 `progressDeadlineSeconds` 来指定滚动升级失败的超时时间, 超时后会取消该版本的滚动升级.
+
