@@ -365,9 +365,9 @@ spec:
 
 ```yaml
 kubectl exec dnsutils nslookup kubia-headless
-#Name: kubia-headless.default.svc.clus七er.local
+#Name: kubia-headless.default.svc.cluster.local
 #Address: 10.108.1.4
-#Name: kubia-headless.default.svc.clus七er.local
+#Name: kubia-headless.default.svc.cluster.local
 #Address: 10.108.2.5
 ```
 
@@ -379,3 +379,10 @@ kubectl exec dnsutils nslookup kubia-headless
 
 ## 发现所有的 `pod`
 
+只有就绪的 `pod` 能够作为服务的后端, `kubernetes` 也提供了方法将所有的 `pod` 添加到服务中.
+
+```yaml
+metadata:
+    annotations:
+        service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+```

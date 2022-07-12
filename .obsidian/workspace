@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "7c431c7e94e1d786",
+        "id": "c29c1e83430a4c29",
         "type": "leaf",
         "state": {
           "type": "markdown",
@@ -19,15 +19,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "af3e6e93efa7a1e1",
+    "id": "3e32c5c6f8959bda",
     "type": "split",
     "children": [
       {
-        "id": "80f028e007717c03",
+        "id": "c7e629b44f110cb1",
         "type": "tabs",
         "children": [
           {
-            "id": "039ace6394e38bdd",
+            "id": "0f7fb0fd1383ef7b",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -35,7 +35,7 @@
             }
           },
           {
-            "id": "caa5deb44a36956f",
+            "id": "bfd6caa05e767b3a",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -53,18 +53,18 @@
       }
     ],
     "direction": "horizontal",
-    "width": 214
+    "width": 300
   },
   "right": {
-    "id": "95a031fe3cc1a187",
+    "id": "19baca4d80f3d8d2",
     "type": "split",
     "children": [
       {
-        "id": "9ed97f77218c370e",
+        "id": "bd18062b6cb8da8e",
         "type": "tabs",
         "children": [
           {
-            "id": "556a44bafb24fd54",
+            "id": "a2bb9c16f999652f",
             "type": "leaf",
             "state": {
               "type": "backlink",
@@ -76,12 +76,12 @@
                 "showSearch": false,
                 "searchQuery": "",
                 "backlinkCollapsed": false,
-                "unlinkedCollapsed": false
+                "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "d0c1ab25e1c67711",
+            "id": "21ece9130b07f1f0",
             "type": "leaf",
             "state": {
               "type": "advanced-tables-toolbar",
@@ -89,7 +89,7 @@
             }
           },
           {
-            "id": "f0ff2c214dd07ae1",
+            "id": "33dd9f92caa695b9",
             "type": "leaf",
             "state": {
               "type": "git-view",
@@ -98,36 +98,22 @@
           }
         ],
         "currentTab": 2
-      },
-      {
-        "id": "f8fa6abc7c2e2494",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "9a382aa079580f83",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {}
-            }
-          }
-        ]
       }
     ],
     "direction": "horizontal",
-    "width": 200.5
+    "width": 300
   },
-  "active": "7c431c7e94e1d786",
+  "active": "c29c1e83430a4c29",
   "lastOpenFiles": [
     "develop/distribution/kubernates_in_action/10_statefulset.md",
-    "develop/distribution/kubernates_in_action/9_deployment.md",
-    "develop/distribution/kubernates_in_action/3_pod.md",
-    "develop/distribution/kubernates_in_action/2_ready_to_use.md",
-    "develop/distribution/kubernates_in_action/1_introduce.md",
-    "README.md",
-    "develop/distribution/kubernates_in_action/8_metadata.md",
-    "develop/distribution/kubernates_in_action/7_configMap.md",
+    "develop/distribution/kubernates_in_action/6_volume.md",
+    "develop/distribution/kubernates_in_action/5_service.md",
     "develop/distribution/kubernates_in_action/4_controller.md",
-    "develop/distribution/kubernates_in_action/5_service.md"
+    "develop/distribution/kubernates_in_action/3_pod.md",
+    "develop/distribution/kubernates_in_action/7_configMap.md",
+    "develop/distribution/kubernates_in_action/9_deployment.md",
+    "develop/distribution/Untitled.md",
+    "develop/distribution/kubernates_in_action/2_ready_to_use.md",
+    "develop/distribution/kubernates_in_action/assert/Pasted image 20220705171807.png"
   ]
 }
