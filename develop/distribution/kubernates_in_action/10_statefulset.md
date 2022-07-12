@@ -90,13 +90,14 @@ func main() {
       _, _ = writer.Write([]byte("hello from v2:" + name))  
    })  
    http.HandleFunc("/get", func(writer http.ResponseWriter, request *http.Request) {  
-      iprecords, err := net.LookupIP("hello-stateful-service")  
+      cname, srv, err := net.LookupSRV("", "", "hello-stateful-service")  
       if err != nil {  
          log.Println("lookup ip failed:", err)  
       }  
       var buf bytes.Buffer  
-      for _, iprecord := range iprecords {  
-         buf.WriteString(iprecord.String() + "\n")  
+      buf.WriteString(cname + "\n")  
+      for _, s := range srv {  
+         buf.WriteString(fmt.Sprintf("%s:%d\n", s.Target, s.Port))  
       }  
       _, err = writer.Write(buf.Bytes())  
       if err != nil {  
@@ -198,8 +199,11 @@ curl localhost:8001/api/v1/namespaces/default/pods/hello-stateful-0/proxy/ -d "x
 
 ```bash
 curl localhost/stateful/get
-#10.244.0.19
-#10.244.0.20
-#10.244.0.21
+hello-stateful-service.default.svc.cluster.local.
+hello-stateful-2.hello-stateful-service.default.svc.cluster.local.:8000
+hello-stateful-1.hello-stateful-service.default.svc.cluster.local.:8000
+hello-stateful-0.hello-stateful-service.default.svc.cluster.local.:8000
 ```
+
+也可以通过获取到的 `target` 来解析到它的 `ip` 或者直接使用所需要的去访问即可.
 
