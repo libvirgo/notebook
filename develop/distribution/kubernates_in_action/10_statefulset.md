@@ -207,3 +207,17 @@ hello-stateful-0.hello-stateful-service.default.svc.cluster.local.:8000
 
 也可以通过获取到的 `target` 来解析到它的 `ip` 或者直接使用所需要的去访问即可.
 
+# 处理节点失败
+
+当一个节点无法发送该节点的状态更新, 该节点上的 `pod` 状态就会变为 `Unknown`, 当一个 `pod` 状态为 `Unknown` 时, 如果在一定时间内正常连通, 就会被重新标记为 `Running`, 如果持续未知状态, 那么这个 `pod` 就会自动从节点上驱逐, 删除 `pod` 的资源.
+
+当 `kubelet` 发现这个 `pod` 被标记为删除状态后, 开始终止运行该 `pod`(如果网络断开的话, 由于客户端无法收到主节点通信, 就不会终止运行).
+
+如果网络断开的情况下, 手动删除是无法删除掉的, 因为它所在节点的 `kubectl` 客户端无法通知 `API` 服务器说这个 `pod` 终止成功.
+
+也可以强制删除:
+
+```bash
+kubectl delete po kubia-0 --force --grace-period 0
+```
+
