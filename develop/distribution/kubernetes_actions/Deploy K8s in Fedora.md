@@ -6,6 +6,8 @@
 # 配置网络
 
 ```bash
+# dnf install langpacks-zh_CN glibc-all-langpacks -y
+
 cat <<EOF | sudo tee /etc/sysctl.d/99-k8s-cri.conf
 net.bridge.bridge-nf-call-iptables=1  
 net.ipv4.ip_forward=1  
@@ -83,6 +85,8 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 exclude=kubelet kubeadm kubectl
 EOF
 ```
+
+# 初始化及后续配置
 
 ```bash
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
