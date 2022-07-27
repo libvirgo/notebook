@@ -174,6 +174,46 @@ spec:
   externalName: www.baidu.com # 指定反代的域名, 可能有跨域问题.
 ```
 
+## 通过服务和 `Ingress` 代理外部 `Jellyfin`
+
+```yaml
+kind: List  
+apiVersion: v1  
+items:  
+  - kind: Service  
+    apiVersion: v1  
+    metadata:  
+      name: jellyfin  
+    spec:  
+      ports:  
+        - port: 8097  
+  - kind: Endpoints  
+    apiVersion: v1  
+    metadata:  
+      name: jellyfin  
+    subsets:  
+      - addresses:  
+          - ip: 10.1.2.105  
+        ports:  
+          - port: 8097  
+  - kind: Ingress  
+    apiVersion: networking.k8s.io/v1  
+    metadata:  
+      name: jelly-ingress
+    spec:  
+      rules:  
+        - http:  
+            paths:  
+            
+              - pathType: Prefix  
+                path: "/jellyfin(/|$)(.*)"  
+                backend:  
+                  service:  
+                    name: jellyfin  
+                    port:  
+                      number: 8097
+```
+
 # 将服务暴露给外部客户端
 
 * 将服务的类型设置为 `NodePort`, 每个集群节点都会在节点上打开一个端口, 对于 `NodePort` 服务, 每个集群节点在节点本身上打开一个端口, 并将在该端口上接收到的流量重定向到基础服务, 该服务仅在内部集群 `ip` 和端口上才可以访问, 但也可以通过所有节点上的专用端口访问.
