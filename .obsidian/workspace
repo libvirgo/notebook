@@ -19,60 +19,91 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "2e71412df6e336ae",
-    "type": "mobile-drawer",
+    "id": "3e32c5c6f8959bda",
+    "type": "split",
     "children": [
       {
-        "id": "86c9c22d2421ea5c",
-        "type": "leaf",
-        "state": {
-          "type": "file-explorer",
-          "state": {}
-        }
-      },
-      {
-        "id": "9adf41200deacfdb",
-        "type": "leaf",
-        "state": {
-          "type": "search",
-          "state": {
-            "query": "",
-            "matchingCase": false,
-            "explainSearch": false,
-            "collapseAll": false,
-            "extraContext": false,
-            "sortOrder": "alphabetical"
+        "id": "c7e629b44f110cb1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0f7fb0fd1383ef7b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "bfd6caa05e767b3a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
           }
-        }
+        ]
       }
     ],
-    "currentTab": 0
+    "direction": "horizontal",
+    "width": 300
   },
   "right": {
-    "id": "12098d9753954d25",
-    "type": "mobile-drawer",
+    "id": "19baca4d80f3d8d2",
+    "type": "split",
     "children": [
       {
-        "id": "badd4c22ce1edfac",
-        "type": "leaf",
-        "state": {
-          "type": "backlink",
-          "state": {
-            "file": "develop/distribution/kubernates_in_action/11_theory.md",
-            "collapseAll": false,
-            "extraContext": false,
-            "sortOrder": "alphabetical",
-            "showSearch": false,
-            "searchQuery": "",
-            "backlinkCollapsed": false,
-            "unlinkedCollapsed": true
+        "id": "bd18062b6cb8da8e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a2bb9c16f999652f",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "develop/distribution/kubernates_in_action/11_theory.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "21ece9130b07f1f0",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
+            }
+          },
+          {
+            "id": "33dd9f92caa695b9",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {}
+            }
           }
-        }
+        ],
+        "currentTab": 2
       }
     ],
-    "currentTab": 0
+    "direction": "horizontal",
+    "width": 300
   },
-  "active": "c29c1e83430a4c29",
+  "active": "33dd9f92caa695b9",
   "lastOpenFiles": [
     "develop/distribution/kubernates_in_action/7_configMap.md",
     "develop/distribution/kubernates_in_action/8_metadata.md",
