@@ -85,3 +85,75 @@ kg po -o custom-columns=POD:metadata.name,NODE:spec.nodeName --sort-by spec.node
 
 ## 控制器
 
+控制器管理器负责确保系统真实状态朝 `API` 服务器定义的期望的状态收敛. 单个控制器, 管理器进程组合了多个执行不同非冲突任务的控制器. 这些控制器会被分解到不同的进程, 有需要的话我们也可以用自定义的实现去替换它们. 包括:
+
+* `Replication` 控制器
+* `ReplicaSet`, `DaemonSet`, `Job` 控制器
+* `Deployment`
+* `StatefulSet`
+* `Node`
+* `Service`
+* `Endpoints`
+* `Namespace`
+* `PersistentVolume`
+* 其他
+
+控制器通过 `API` 服务器监听资源变更, 并且不论是创建更新删除已有对象, 都变更执行相应操作. 大多数情况下, 这些操作涵盖了新建其他资源或者更新监听的资源本身.
+
+总的来说, 控制器执行一个调和循环, 将实际状态调整为期望状态, 然后将新的实际状态写入资源的 `status` 部分, 控制器利用监听机制来变更订阅, 但是由于监听机制并不保证控制器不会漏掉时间, 所以仍然需要定期执行重列举操作来确保不会丢掉什么.
+
+> 控制器的源码 [controller](https://github.com/kubernetes/kubernetes/blob/master/pkg/controller) 每个控制器一般有一个构造器, 内部会创建一个 `Informer`, 其实是个监听器, 每次 `API` 对象有更新就会被调用. 接下来是 `worker()` 方法, 每次控制器工作的时候都会调用. 实际的函数保存在 `syncHandler` 或类似的字段中, 该字段也在构造器里初始化, 可以在那里找到被调用函数名.
+
+### RC控制器
+
+`Rc` 实际上不会去运行 `pod`, 它会创建新的 `pod` 清单, 发布到 `API` 服务器, 让调度器以及 `kubelet` 来做调度工作并运行 `pod`
+
+![](assert/Pasted%20image%2020220729142606.png)
+### `Endpoint` 控制器
+
+控制器同时监听了 `Service` 和 `pod`, 控制器会选 `Service` 里 `pod` 选择器匹配的 `pod` 将其 `ip` 和端口添加到 `endpoint` 资源中. 当删除 `Service` 时, `Endpoint` 对象也会被删除.
+
+![](assert/Pasted%20image%2020220729150736.png)
+## Kubelet
+
+`Kubelet` 以及 `Service Proxy` 运行在工作节点上(实际 `pod` 容器运行的地方).
+
+`Kubelet` 是负责所有运行在工作节点上内容的组件, 第一个任务就是在 `API` 服务器中创建一个 `Node` 资源来注册该节点, 然后需要持续监控 `API` 服务器是否把该节点分配给 `pod`, 然后启动 `pod` 容器. 具体实现方式是告知配置好的 `CRI` 来从特定镜像运行容器, 随后持续监控运行的容器, 向 `API` 服务器报告它们的状态, 事件和资源消耗.
+
+尽管 `Kubelet` 一般会和 `API` 服务器通信并从中获取 `pod` 清单, 它也可以基于本地指定目录下的 `pod` 清单来运行 `pod`, 该特性用于将容器化版本的控制平面组件以 `pod` 形式运行.
+
+![](assert/Pasted%20image%2020220729151317.png)
+也可以同样的方式运行自定义的系统容器, 不过一般用 `DaemonSet` 来做这项工作.
+
+## Service Proxy
+
+`kube-proxy` 最初实现为 `userspace` 代理, 利用实际的服务器集成接收连接, 同时代理给 `pod`, 为了拦截发往服务 `ip` 的连接, 代理通过 `iptables` 规则重定向连接到代理服务器.
+
+
+![](assert/Pasted%20image%2020220729153111.png)
+
+不过当前性能更好的实现方式是仅仅通过 `iptables` 规则重定向数据包到一个随机选择的后端 `pod`, 而不会传递到一个实际的代理服务器. 如图:
+
+![](assert/Pasted%20image%2020220729153214.png)
+
+## 插件
+
+除了核心组件, 也有一些不是必须的组件, 比如用于启用 `kubernetes` 服务的 `DNS` 查询, 通过单个外部 `IP` 地址暴露多个 `HTTP` 服务, 仪表板等.
+
+### `DNS` 服务器
+
+`DNS` 服务 `pod` 通过 `kube-dns` 服务对外暴露, 使得该 `pod` 能够像其它 `pod` 一样在集群中移动, 服务的 `IP` 地址在集群每个容器的 `/etc/reslv.conf` 文件的 `nameserver` 中定义,  `kube-dns` `pod` 利用 `API` 服务器的监控机制订阅 `Service` 和 `Endpoint` 的变动, 以及 `DNS` 记录的变更, 使得其客户端总是能够获取到最新的 `DNS` 信息. 当然在发生变化都收到订阅通知时间点之间, `DNS` 可能会无效.
+
+# 控制器如何协作
+
+`Kubernetes` 组件通过 `API` 服务器监听 `API` 对象:
+
+![](assert/Pasted%20image%2020220729153939.png)
+
+`Deployment` 资源提交到 `API` 服务器的事件链:
+
+![](assert/Pasted%20image%2020220729154033.png)
+1. `Deployment` 生成 `RS`
+2. `RS` 创建 `pod`
+3. 调度器分配节点给新创建的 `pod`
+4. 

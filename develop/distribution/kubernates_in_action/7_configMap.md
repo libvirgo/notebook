@@ -369,4 +369,3 @@ spec:
 ```
 
 > 可以通过添加 `Secret` 到 `ServiceAccount` 使所有 `pod` 都能自动添加上镜像拉取 `Secret`
-
