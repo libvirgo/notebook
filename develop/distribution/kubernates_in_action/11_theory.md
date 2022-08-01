@@ -156,4 +156,6 @@ kg po -o custom-columns=POD:metadata.name,NODE:spec.nodeName --sort-by spec.node
 1. `Deployment` 生成 `RS`
 2. `RS` 创建 `pod`
 3. 调度器分配节点给新创建的 `pod`
-4. 
+4. `Kubelet` 运行 `pod` 容器 :: `kubelet` 通过 `API` 服务器监听 `pod` 变更, 发现有新的 `pod` 分配到本节点后, 命令容器运行时运行容器.
+
+
