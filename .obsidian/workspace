@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "develop/distribution/kubernates_in_action/11_theory.md",
+            "file": "develop/distribution/kubernetes_actions/deploy_k8s_in_fedora.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "develop/distribution/kubernates_in_action/11_theory.md",
+                "file": "develop/distribution/kubernetes_actions/deploy_k8s_in_fedora.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,17 +103,17 @@
     "direction": "horizontal",
     "width": 300
   },
-  "active": "33dd9f92caa695b9",
+  "active": "c29c1e83430a4c29",
   "lastOpenFiles": [
+    "develop/distribution/raft.md",
+    "develop/play/openwrt.md",
+    "develop/distribution/kubernates_in_action/11_theory.md",
     "develop/distribution/kubernates_in_action/7_configMap.md",
     "develop/distribution/kubernates_in_action/8_metadata.md",
     "develop/distribution/kubernates_in_action/9_deployment.md",
-    "develop/distribution/kubernates_in_action/11_theory.md",
-    "develop/distribution/kubernetes_actions/Deploy K8s in Fedora.md",
+    "develop/distribution/kubernetes_actions/deploy_k8s_in_fedora.md",
     "develop/distribution/kubernetes_actions/Use Istio.md",
-    "develop/play/openwrt.md",
     "develop/distribution/etcd.md",
-    "README.md",
-    "develop/distribution/kubernates_in_action/3_pod.md"
+    "README.md"
   ]
 }

@@ -158,4 +158,21 @@ kg po -o custom-columns=POD:metadata.name,NODE:spec.nodeName --sort-by spec.node
 3. 调度器分配节点给新创建的 `pod`
 4. `Kubelet` 运行 `pod` 容器 :: `kubelet` 通过 `API` 服务器监听 `pod` 变更, 发现有新的 `pod` 分配到本节点后, 命令容器运行时运行容器.
 
+## 集群事件
 
+控制平面组件和 `kubelet` 执行动作时, 都会发送事件给 `API` 服务器. 发送事件是通过创建事件资源来实现的, 事件资源和其他资源类似, 可以使用 `kubectl describe` 来检查, 也可以使用 `kubectl get events`, 或者 `kubectl get events --watch` 进行监听.
+
+# 运行中的 `pod`
+
+![](assert/Pasted%20image%2020220801154321.png)
+除了运行的容器, 还会有一个附加容器, 附加容器没有做任何事情, 它的作用是将一个 `pod` 的所有容器收纳到一起. 暂停的容器是一个基础容器, 它的唯一目的就是保存所有的命名空间, 所有 `pod` 的其它用户定义容器使用 `pod` 的该基础容器的命名空间.
+
+# 跨 `pod` 网络
+
+网络是由系统管理员或者 `CNI` 插件建立的.
+
+`kubernetes` 不要求使用特定的网络技术, 但是授权 `pod` 不论是否运行在同一个工作节点上, 可以互相通信. `pod` 用于通信的网络必须是: `pod` 自己认为的 `IP` 地址一定和所有其他节点认为该 `pod` 所拥有的 `IP` 地址一致.
+
+保证运行在 `pod` 内部的应用网络的简洁性, 就像运行在同一个网关机上一样. `pod` 没有 `NAT` 使得运行在其中的应用可以自己注册在其它的 `pod` 中.
+
+![](assert/Pasted%20image%2020220801173632.png)
