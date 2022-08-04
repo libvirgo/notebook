@@ -93,3 +93,119 @@ spec:
 
 角色定义了可以做什么操作, 而绑定定义了谁可以做这些操作.
 
+角色绑定是命名空间的资源, 集群绑定是集群级别的资源
+
+多个角色绑定可以存在于单个命名空间中.
+
+![](assert/Pasted%20image%2020220804154758.png)
+
+![](assert/Pasted%20image%2020220804154851.png)
+
+## 示例
+
+```bash
+k create ns foo
+k create ns bar
+k run test --image=luksa/kubectl-proxy -n bar
+k run test --image=luksa/kubectl-proxy -n foo
+curl localhost:8001/api/v1/namespaces/foo/services
+# services is forbidden: User \"system:serviceaccount:foo:default\" cannot list resource......
+```
+
+### 创建角色资源
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: foo
+  name: service-reader
+rules:
+  - apiGroups: [""]
+    verbs: ["get", "list"]
+    resources: ["services"]
+```
+
+![](assert/Pasted%20image%2020220804155526.png)
+
+### 创建角色绑定资源
+
+```bash
+k create rolebinding test --role=service-reader --serviceaccount=foo:default -n foo
+```
+
+```yaml
+apiVersion: v1
+items:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    creationTimestamp: "2022-08-04T07:57:06Z"
+    name: test
+    namespace: foo
+    resourceVersion: "978884"
+    uid: f159a931-15b9-44f6-b2b1-6b645b6fbbba
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: service-reader
+  subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: foo
+kind: List
+metadata:
+  resourceVersion: ""
+```
+
+现在 `foo` 命名空间中的 `pod` 应该可以通过 `curl` 获取服务列表了.
+
+## `ClusterRole` 和 `ClusterRoleBinding`
+
+一个常规的角色只允许访问和角色在同一个命名空间中的资源. 如果希望允许跨不同命名空间访问资源, 就必须要在每个命名空间中创建一个 `Role` 和 `RoleBinding`.
+
+并且, 一些特定的资源也不在命名空间中, 比如 `node`, `persistentVolume`, `namespace` 等. 也有一些不表示资源的 `URL` 路径, 例如 `/healthz`. 常规角色不能对这些资源或非资源型的 `URL` 进行授权, 但是 `ClusterRole` 可以.
+
+`ClusterRole` 是一种集群级资源, 允许访问没有命名空间的资源和非资源, 或者作为命名空间内部绑定的公共角色, 从而避免必须在每个命名空间中重新定义相同的角色.
+
+下面的示例创建了可以访问 `PV` 的集群角色绑定.
+
+```bash
+k create clusterrole pv-reader --verb=get,list --resource=persistentvolumes
+k create clusterrolebinding pv-test --clusterrole=pv-reader --serviceaccount=foo:default
+```
+
+因此我们也可以通过创建一个集群角色来体感上关闭角色访问控制:
+
+```bash
+kubectl create clusterrolebinding permissive-binding \
+--clusterrole=cluster-admin \
+--group=system:serviceaccounts
+```
+
+该命令给了所有服务账户集群管理员的权限.
+
+`system:discovery` 角色是一些非资源型规则, 这些只支持 `GET` 动词. 可以通过查看其定义来了解如何定义非资源型权限.
+
+### 默认的集群角色和集群角色绑定
+
+`kubernetes` 提供了一组默认的, 每次 `API` 服务器启动的时候都会更新. 保证了在错误地删除角色和绑定, 或者 `kubernetes` 的新版本使用不同的集群和绑定配置的时候, 所有默认角色和绑定都会被重新创建.
+
+`view`, `edit`, `admin`, `cluster-admin` 是最重要的集群角色.
+
+用 `view` 允许对资源的只读访问.
+
+用 `edit` 允许对资源的修改, 当然为了防止权限扩散, 不允许查看修改 `role` 和 `roleBinding`.
+
+用 `admin` 赋予一个命名空间全部的控制权, `edit` 和 `admin` 的区别主要在于能否查看和修改 `role` 和 `rolebinding`.
+
+用 `cluster-admin` 可以得到完全的控制. `admin` 不允许修改命名空间的 `ResourceQuota` 对象或者命名空间资源本身.
+
+## 理性授予权限
+
+* 我们最好给每个人提供他们工作所需要的权限, 最小权限原则.
+* 为每个 `pod` 创建特定的 `ServiceAccount`.
+* 假设应用被入侵, 我们的目标是减少入侵者获得集群控制的可能性. 因此应该始终限制 `ServiceAccount`, 以防止它们造成任何实际的伤害.
+
+
+
