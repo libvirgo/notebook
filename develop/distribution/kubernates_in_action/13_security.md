@@ -151,3 +151,27 @@ spec:
 
 # 隔离 `pod` 的网络
 
+使用 `NetworkPolicy`
+
+允许 `app=shopping-cart` 标签的并且来自 `tenant=manning` 标签的命名空间中的 `pod` 访问80端口.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+    name: shoppingcart-netpolicy
+spec:
+    podSelector:
+        matchLabels:
+            app: shopping-cart
+        ingress:
+        - from:
+            - namespaceSelector:
+                matchLabels:
+                    tenant: manning
+            ports:
+            - port: 80
+```
+
+![](assert/Pasted%20image%2020220809151256.png)
+
