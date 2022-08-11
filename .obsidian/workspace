@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "develop/distribution/kubernates_in_action/15_best_practise.md",
+            "file": "develop/distribution/kubernates_in_action/16_extensioin.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "develop/distribution/kubernates_in_action/15_best_practise.md",
+                "file": "develop/distribution/kubernates_in_action/16_extensioin.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -81,15 +81,7 @@
             }
           },
           {
-            "id": "54dae9eb3a3bae72",
-            "type": "leaf",
-            "state": {
-              "type": "advanced-tables-toolbar",
-              "state": {}
-            }
-          },
-          {
-            "id": "bf0955064a2a9511",
+            "id": "46c2dbe56a4a9421",
             "type": "leaf",
             "state": {
               "type": "git-view",
@@ -97,23 +89,23 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
     "width": 300
   },
-  "active": "1f84509251832390",
+  "active": "c29c1e83430a4c29",
   "lastOpenFiles": [
-    "develop/distribution/kubernates_in_action/16_extensioin.md",
-    "develop/distribution/kubernates_in_action/15_best_practise.md",
-    "develop/distribution/kubernetes_actions/deploy_k8s_in_fedora.md",
     "develop/distribution/kubernates_in_action/13_security.md",
     "develop/distribution/kubernates_in_action/4_controller.md",
     "develop/distribution/kubernates_in_action/11_theory.md",
     "develop/distribution/kubernates_in_action/9_deployment.md",
     "develop/distribution/kubernates_in_action/10_statefulset.md",
     "develop/distribution/kubernates_in_action/12_rbac.md",
-    "develop/distribution/kubernates_in_action/14_resources.md"
+    "develop/distribution/kubernates_in_action/14_resources.md",
+    "develop/distribution/kubernetes_actions/deploy_k8s_in_fedora.md",
+    "develop/distribution/kubernates_in_action/5_service.md",
+    "develop/distribution/kubernates_in_action/6_volume.md"
   ]
 }
