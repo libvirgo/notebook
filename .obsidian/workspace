@@ -19,15 +19,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "3e32c5c6f8959bda",
+    "id": "0f90c0072a7bebe5",
     "type": "split",
     "children": [
       {
-        "id": "c7e629b44f110cb1",
+        "id": "25a69fb821193642",
         "type": "tabs",
         "children": [
           {
-            "id": "0f7fb0fd1383ef7b",
+            "id": "34e2a245cafb4af6",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -35,7 +35,7 @@
             }
           },
           {
-            "id": "bfd6caa05e767b3a",
+            "id": "284fe82b694f0f83",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -56,15 +56,15 @@
     "width": 300
   },
   "right": {
-    "id": "19baca4d80f3d8d2",
+    "id": "6ee3eb1c1a019106",
     "type": "split",
     "children": [
       {
-        "id": "bd18062b6cb8da8e",
+        "id": "25c8c124085ed9ae",
         "type": "tabs",
         "children": [
           {
-            "id": "a2bb9c16f999652f",
+            "id": "1f84509251832390",
             "type": "leaf",
             "state": {
               "type": "backlink",
@@ -81,7 +81,7 @@
             }
           },
           {
-            "id": "21ece9130b07f1f0",
+            "id": "54dae9eb3a3bae72",
             "type": "leaf",
             "state": {
               "type": "advanced-tables-toolbar",
@@ -89,7 +89,7 @@
             }
           },
           {
-            "id": "33dd9f92caa695b9",
+            "id": "bf0955064a2a9511",
             "type": "leaf",
             "state": {
               "type": "git-view",
@@ -103,17 +103,17 @@
     "direction": "horizontal",
     "width": 300
   },
-  "active": "c29c1e83430a4c29",
+  "active": "1f84509251832390",
   "lastOpenFiles": [
-    "develop/distribution/kubernetes_actions/deploy_k8s_in_fedora.md",
-    "develop/distribution/kubernates_in_action/2_ready_to_use.md",
+    "develop/distribution/kubernates_in_action/16_extensioin.md",
     "develop/distribution/kubernates_in_action/15_best_practise.md",
-    "develop/distribution/kubernates_in_action/14_resources.md",
+    "develop/distribution/kubernetes_actions/deploy_k8s_in_fedora.md",
     "develop/distribution/kubernates_in_action/13_security.md",
+    "develop/distribution/kubernates_in_action/4_controller.md",
+    "develop/distribution/kubernates_in_action/11_theory.md",
+    "develop/distribution/kubernates_in_action/9_deployment.md",
+    "develop/distribution/kubernates_in_action/10_statefulset.md",
     "develop/distribution/kubernates_in_action/12_rbac.md",
-    "develop/distribution/kubernetes_actions/Use Istio.md",
-    "develop/play/openwrt.md",
-    "develop/distribution/raft.md",
-    "develop/distribution/kubernates_in_action/8_metadata.md"
+    "develop/distribution/kubernates_in_action/14_resources.md"
   ]
 }

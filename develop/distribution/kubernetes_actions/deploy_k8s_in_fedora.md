@@ -19,7 +19,8 @@ EOF
 # 开启所需网络模块 overlay br_netfilter
 echo -e overlay\\nbr_netfilter > /etc/modules-load.d/k8s.conf
 
-# nftables切换到 iptables-legacy, 不切换发现也没问题
+# nftables切换到 iptables-legacy
+# 目前发现istio是不支持nftables的, 所以需要切换为legacy.
 sudo dnf install iptables-legacy
 sudo alternatives --config iptables
 
