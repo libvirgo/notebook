@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "develop/distribution/kubernates_in_action/16_extensioin.md",
+            "file": "develop/web/head_first_https/1_secret.md",
             "mode": "source",
             "source": false
           }
@@ -53,7 +53,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 474
   },
   "right": {
     "id": "6ee3eb1c1a019106",
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "develop/distribution/kubernates_in_action/16_extensioin.md",
+                "file": "develop/web/head_first_https/1_secret.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -81,7 +81,15 @@
             }
           },
           {
-            "id": "46c2dbe56a4a9421",
+            "id": "54dae9eb3a3bae72",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
+            }
+          },
+          {
+            "id": "bf0955064a2a9511",
             "type": "leaf",
             "state": {
               "type": "git-view",
@@ -89,7 +97,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -97,15 +105,15 @@
   },
   "active": "c29c1e83430a4c29",
   "lastOpenFiles": [
-    "develop/distribution/kubernates_in_action/13_security.md",
-    "develop/distribution/kubernates_in_action/4_controller.md",
+    "develop/distribution/etcd.md",
+    "develop/distribution/raft.md",
+    "develop/distribution/assert/Pasted image 20220623150448.png",
+    "develop/distribution/assert/Pasted image 20220623145620.png",
+    "develop/distribution/assert/Pasted image 20220623143345.png",
+    "develop/distribution/kubernates_in_action/3_pod.md",
     "develop/distribution/kubernates_in_action/11_theory.md",
-    "develop/distribution/kubernates_in_action/9_deployment.md",
-    "develop/distribution/kubernates_in_action/10_statefulset.md",
     "develop/distribution/kubernates_in_action/12_rbac.md",
-    "develop/distribution/kubernates_in_action/14_resources.md",
-    "develop/distribution/kubernetes_actions/deploy_k8s_in_fedora.md",
-    "develop/distribution/kubernates_in_action/5_service.md",
-    "develop/distribution/kubernates_in_action/6_volume.md"
+    "develop/distribution/kubernates_in_action/13_security.md",
+    "develop/distribution/kubernates_in_action/14_resources.md"
   ]
 }
