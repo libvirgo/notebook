@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "develop/web/mysql_crash_course.md",
+            "file": "develop/web/mysql/1_basic.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "develop/web/mysql_crash_course.md",
+                "file": "develop/web/mysql/1_basic.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,6 +105,7 @@
   },
   "active": "c29c1e83430a4c29",
   "lastOpenFiles": [
+    "develop/web/mysql_crash_course.md",
     "develop/web/head_first_https/1_secret.md",
     "develop/distribution/etcd.md",
     "develop/distribution/raft.md",
@@ -113,7 +114,6 @@
     "develop/distribution/assert/Pasted image 20220623143345.png",
     "develop/distribution/kubernates_in_action/3_pod.md",
     "develop/distribution/kubernates_in_action/11_theory.md",
-    "develop/distribution/kubernates_in_action/12_rbac.md",
-    "develop/distribution/kubernates_in_action/13_security.md"
+    "develop/distribution/kubernates_in_action/12_rbac.md"
   ]
 }
