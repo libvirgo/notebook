@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "develop/web/high_performance_mysql/2_analyse_select.md",
+            "file": "develop/web/high_performance_mysql/4_high_performance_index.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "develop/web/high_performance_mysql/2_analyse_select.md",
+                "file": "develop/web/high_performance_mysql/4_high_performance_index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,17 +103,17 @@
     "direction": "horizontal",
     "width": 300
   },
-  "active": "34e2a245cafb4af6",
+  "active": "c29c1e83430a4c29",
   "lastOpenFiles": [
-    "develop/web/high_performance_mysql/assert/Pasted image 20220917171922.png",
+    "develop/web/high_performance_mysql/3_schema_data_type_optimize.md",
     "develop/web/high_performance_mysql/2_analyse_select.md",
+    "develop/web/high_performance_mysql/assert/Pasted image 20220917171922.png",
     "develop/web/high_performance_mysql/1_basic.md",
     "develop/web/mysql_crash_course.md",
     "develop/web/head_first_https/1_secret.md",
     "develop/distribution/etcd.md",
     "develop/distribution/raft.md",
     "develop/distribution/assert/Pasted image 20220623150448.png",
-    "develop/distribution/assert/Pasted image 20220623145620.png",
-    "develop/distribution/assert/Pasted image 20220623143345.png"
+    "develop/distribution/assert/Pasted image 20220623145620.png"
   ]
 }
